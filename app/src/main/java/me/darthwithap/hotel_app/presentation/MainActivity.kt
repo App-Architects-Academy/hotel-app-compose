@@ -1,4 +1,4 @@
-package me.darthwithap.hotel_app
+package me.darthwithap.hotel_app.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
