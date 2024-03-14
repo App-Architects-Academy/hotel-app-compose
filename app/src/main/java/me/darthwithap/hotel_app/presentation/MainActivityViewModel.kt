@@ -14,12 +14,18 @@ class MainActivityViewModel : ViewModel() {
 
   init {
     viewModelScope.launch {
-      delay(2000) // Simulate background tasks in splash screen
+      delay(500) // Simulate background tasks in splash screen
       _state.update {
         it.copy(
-          isLoading = false
+          isLoading = false,
+          isLoggedIn = isUserLoggedIn()
         )
       }
     }
+  }
+
+  private suspend fun isUserLoggedIn(): Boolean {
+    delay(100) // Checking user logged in
+    return false
   }
 }

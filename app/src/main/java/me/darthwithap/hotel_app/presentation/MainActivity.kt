@@ -32,10 +32,11 @@ class MainActivity : ComponentActivity() {
         }
       }
     }
-    splashScreen.setKeepOnScreenCondition { state.isLoading && startDestination != null }
+    println("startDestination: $startDestination")
+    splashScreen.setKeepOnScreenCondition { state.isLoading || startDestination == null }
     setContent {
       AppTheme {
-        HotelAppNavigator(startDestination!!)
+        startDestination?.let { HotelAppNavigator(it) }
       }
     }
   }
