@@ -3,44 +3,49 @@ package me.darthwithap.hotel_app.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
+import me.darthwithap.hotel_app.presentation.navigation.HotelAppNavigator
+import me.darthwithap.hotel_app.presentation.navigation.Routes
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
 
+  private val viewModel: MainActivityViewModel by viewModels()
+  private var state: MainActivityUiState by mutableStateOf(MainActivityUiState())
+  private var startDestination: String? = null
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     val splashScreen = installSplashScreen()
-    setContent {
-      AppTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          Greeting("Android")
+    lifecycleScope.launch {
+      lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.state.collect {
+          state = it
+          decideStartDestination(state)
         }
       }
     }
+    splashScreen.setKeepOnScreenCondition { state.isLoading && startDestination != null }
+    setContent {
+      AppTheme {
+        HotelAppNavigator(startDestination!!)
+      }
+    }
   }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier
-  )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-  AppTheme {
-    Greeting("Android")
+  private fun decideStartDestination(uiState: MainActivityUiState) {
+    return if (uiState.isLoggedIn) {
+      startDestination = Routes.HomeScreen
+    } else {
+      startDestination = Routes.AuthScreen
+    }
   }
+
 }

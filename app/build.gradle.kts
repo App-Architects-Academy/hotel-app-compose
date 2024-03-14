@@ -67,4 +67,6 @@ dependencies {
 
   // Splash Screen
   implementation(libs.splashscreen)
+  // Navigation Compose
+  implementation(libs.navigation.compose)
 }
