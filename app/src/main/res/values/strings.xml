@@ -1,3 +1,14 @@
 <resources>
   <string name="app_name">Hotel App</string>
+  <string name="app_logo_small_white">App logo small white</string>
+  <string name="auth_background">Auth Background</string>
+  <string name="login">Login</string>
+  <string name="register">Register</string>
+  <string name="auth_subtitle">Discover world class hotels\nin any destination\nof your choice</string>
+  <string name="navigate_up">Navigate up</string>
+  <string name="register_screen_heading">Create your Account</string>
+  <string name="register_screen_subheading"><![CDATA[Input your Email Address & Password]]></string>
+  <string name="register_and_accept"><![CDATA[Register & Accept]]></string>
+  <string name="enter_email_address">Enter email address</string>
+  <string name="password_placeholder_text">Must contain at least 6 character</string>
 </resources>

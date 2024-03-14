@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import me.darthwithap.hotel_app.presentation.auth.auth.AuthScreen
+import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
 
 @Composable
 fun HotelAppNavigator(
@@ -24,7 +26,22 @@ fun HotelAppNavigator(
       startDestination = startDestination
     ) {
       composable(Routes.AuthScreen) {
-        // Todo()
+        AuthScreen(onLoginClick = {
+          navController.navigate(route = Routes.LoginScreen)
+        }, onRegisterClick = {
+          navController.navigate(route = Routes.RegisterScreen)
+        })
+      }
+      composable(Routes.RegisterScreen) {
+        RegisterScreen(
+          onNavigateBackClick = navController::navigateUp,
+          onRegisterAndAcceptClick = { },
+          onEmailValueChange = {},
+          onPasswordValueChange = {}
+        )
+      }
+      composable(Routes.LoginScreen) {
+
       }
       composable(Routes.HomeScreen) {
         // Todo()
