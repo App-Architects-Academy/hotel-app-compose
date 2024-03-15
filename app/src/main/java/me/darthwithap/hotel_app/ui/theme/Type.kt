@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import me.darthwithap.hotel_app.R
 
-private val BeVietnamProFontFamily = FontFamily(
+val BeVietnamProFontFamily = FontFamily(
   Font(R.font.bevietnam_pro_regular, weight = FontWeight.Normal),
   Font(R.font.bevietnam_pro_bold, weight = FontWeight.Bold)
 )

@@ -34,6 +34,7 @@ import me.darthwithap.hotel_app.ui.components.ButtonSize
 import me.darthwithap.hotel_app.ui.components.EmailInputField
 import me.darthwithap.hotel_app.ui.components.PasswordInputField
 import me.darthwithap.hotel_app.ui.components.PrimaryButton
+import me.darthwithap.hotel_app.ui.components.PrivacyTermsText
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
@@ -95,8 +96,7 @@ fun RegisterScreenContent(
     Spacer(modifier = Modifier.height(26.dp))
     Column(
       modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 24.dp),
+        .fillMaxWidth(),
       horizontalAlignment = Alignment.Start
     ) {
       Text(
@@ -140,46 +140,4 @@ fun RegisterScreenContent(
       enabled = buttonEnabled // state.isRegisterButtonEnabled
     )
   }
-}
-
-@Composable
-private fun PrivacyTermsText(
-  onPrivacyPolicyClick: () -> Unit,
-  onTermsAndConditionsClick: () -> Unit
-) {
-
-  val annotatedText = buildAnnotatedString {
-    append("By tapping ")
-    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-      append("Register & Accept")
-    }
-    append(" that you have read our ")
-
-    pushStringAnnotation(tag = "privacy_policy", annotation = "privacy_policy")
-    withStyle(style = SpanStyle(color = Color.Blue)) {
-      append("Privacy Policy")
-    }
-    pop() // This call removes the last pushed annotation, so we can add more annotations later
-    append(" and agree our ")
-    pushStringAnnotation(tag = "terms_and_conditions", annotation = "terms_and_conditions")
-    withStyle(style = SpanStyle(color = Color.Blue)) {
-      append("Terms and Conditions")
-    }
-    pop()
-  }
-
-  ClickableText(
-    text = annotatedText,
-    onClick = { offset ->
-      // We check if there's an annotation attached to the text at the clicked position
-      annotatedText.getStringAnnotations(tag = "privacy_policy", start = offset, end = offset)
-        .firstOrNull()?.let {
-          onPrivacyPolicyClick()
-        }
-      annotatedText.getStringAnnotations(tag = "terms_and_conditions", start = offset, end = offset)
-        .firstOrNull()?.let {
-          onTermsAndConditionsClick()
-        }
-    }
-  )
 }
