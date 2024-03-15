@@ -1,4 +1,4 @@
-package me.darthwithap.hotel_app.presentation.auth.register
+package me.darthwithap.hotel_app.presentation.auth.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,22 +25,21 @@ import me.darthwithap.hotel_app.ui.components.EmailInputField
 import me.darthwithap.hotel_app.ui.components.NavAppBar
 import me.darthwithap.hotel_app.ui.components.PasswordInputField
 import me.darthwithap.hotel_app.ui.components.PrimaryButton
-import me.darthwithap.hotel_app.ui.components.PrivacyTermsText
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
-fun RegisterScreen(
+fun LoginScreen(
   onNavigateBackClick: () -> Unit,
-  onRegisterAndAcceptClick: () -> Unit,
+  onLoginClick: () -> Unit,
   onEmailValueChange: (String) -> Unit,
   onPasswordValueChange: (String) -> Unit,
   modifier: Modifier = Modifier
 ) {
-  RegisterScreenContent(
+  LoginScreenContent(
     onNavigateBackClick,
     onEmailValueChange,
     onPasswordValueChange,
-    onRegisterAndAcceptClick,
+    onLoginClick,
     modifier
       .navigationBarsPadding()
       .systemBarsPadding(),
@@ -48,11 +47,11 @@ fun RegisterScreen(
 }
 
 @Composable
-fun RegisterScreenContent(
+fun LoginScreenContent(
   onNavigateBackClick: () -> Unit,
   onEmailValueChange: (String) -> Unit,
   onPasswordValueChange: (String) -> Unit,
-  onRegisterAndAcceptClick: () -> Unit,
+  onLoginClick: () -> Unit,
   modifier: Modifier
 ) {
   // Todo: Add Loading Widget
@@ -67,14 +66,14 @@ fun RegisterScreenContent(
 
     Text(
       modifier = modifier,
-      text = stringResource(id = R.string.register_screen_heading),
+      text = stringResource(id = R.string.login_screen_heading),
       style = AppTheme.typography.headlineSmall24Regular,
       color = AppTheme.primaryTextColor
     )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
       modifier = modifier,
-      text = stringResource(id = R.string.register_screen_subheading),
+      text = stringResource(id = R.string.login_screen_subheading),
       style = AppTheme.typography.forms16Regular,
       color = if (AppTheme.isDark) AppTheme.colors.white70 else AppTheme.colors.black70
     )
@@ -114,14 +113,17 @@ fun RegisterScreenContent(
     }
 
     Spacer(modifier = Modifier.height(16.dp))
-    PrivacyTermsText(onPrivacyPolicyClick = {}, onTermsAndConditionsClick = {})
+    Text(
+      text = stringResource(R.string.forgot_password),
+      style = AppTheme.typography.caption12Regular.copy(color = AppTheme.colors.primary)
+    )
     Spacer(modifier = Modifier.weight(1f))
 
     var buttonEnabled by remember { mutableStateOf(true) }
     PrimaryButton(
       modifier = Modifier.fillMaxWidth(),
-      text = stringResource(R.string.register_and_accept),
-      onClick = onRegisterAndAcceptClick,
+      text = stringResource(R.string.login),
+      onClick = onLoginClick,
       buttonSize = ButtonSize.Large,
       enabled = buttonEnabled // state.isRegisterButtonEnabled
     )

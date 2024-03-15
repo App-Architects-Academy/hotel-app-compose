@@ -8,10 +8,13 @@
   <string name="navigate_up">Navigate up</string>
   <string name="register_screen_heading">Create your Account</string>
   <string name="register_screen_subheading"><![CDATA[Input your Email Address & Password]]></string>
+  <string name="login_screen_subheading"><![CDATA[Input your Email Address & Password]]></string>
   <string name="register_and_accept"><![CDATA[Register & Accept]]></string>
   <string name="enter_email_address">Enter email address</string>
   <string name="password_placeholder_text">Must contain at least 6 character</string>
   <string name="cd_password_icon">Password show/hide icon</string>
   <string name="email_address">Email Address</string>
   <string name="set_password">Set Password</string>
+  <string name="login_screen_heading">Welcome Back!</string>
+  <string name="forgot_password">Forgot Password?</string>
 </resources>
