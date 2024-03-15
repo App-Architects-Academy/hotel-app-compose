@@ -36,7 +36,7 @@ private class PrimaryButtonDefaults(val isAnti: Boolean = false) {
 
 private class SecondaryButtonDefaults(val isAnti: Boolean = false) {
   @Composable
-  fun containerColor() = AppTheme.colorScheme.transparent
+  fun containerColor() = AppTheme.colors.transparent
 
   @Composable
   fun contentColor() = if (isAnti) AppTheme.surfaceColor else AppTheme.primaryTextColor
@@ -76,9 +76,9 @@ fun PrimaryButton(
   }
 
   val textStyle: TextStyle = when (buttonSize) {
-    ButtonSize.Small -> AppTheme.typography.overline10
-    ButtonSize.Medium -> AppTheme.typography.title14
-    ButtonSize.Large -> AppTheme.typography.forms16
+    ButtonSize.Small -> AppTheme.typography.overline10Regular
+    ButtonSize.Medium -> AppTheme.typography.title14Regular
+    ButtonSize.Large -> AppTheme.typography.forms16Regular
   }
 
   val iconSize: Dp = when (buttonSize) {
@@ -151,9 +151,9 @@ fun SecondaryButton(
   }
 
   val textStyle: TextStyle = when (buttonSize) {
-    ButtonSize.Small -> AppTheme.typography.overline10
-    ButtonSize.Medium -> AppTheme.typography.title14
-    ButtonSize.Large -> AppTheme.typography.forms16
+    ButtonSize.Small -> AppTheme.typography.overline10Regular
+    ButtonSize.Medium -> AppTheme.typography.title14Regular
+    ButtonSize.Large -> AppTheme.typography.forms16Regular
   }
 
   val iconSize: Dp = when (buttonSize) {

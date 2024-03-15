@@ -11,4 +11,7 @@
   <string name="register_and_accept"><![CDATA[Register & Accept]]></string>
   <string name="enter_email_address">Enter email address</string>
   <string name="password_placeholder_text">Must contain at least 6 character</string>
+  <string name="cd_password_icon">Password show/hide icon</string>
+  <string name="email_address">Email Address</string>
+  <string name="set_password">Set Password</string>
 </resources>

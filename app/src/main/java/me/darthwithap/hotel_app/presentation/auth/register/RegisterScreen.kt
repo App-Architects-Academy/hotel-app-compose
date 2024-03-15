@@ -1,8 +1,5 @@
 package me.darthwithap.hotel_app.presentation.auth.register
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,33 +8,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import me.darthwithap.hotel_app.R
+import me.darthwithap.hotel_app.ui.components.ButtonSize
+import me.darthwithap.hotel_app.ui.components.EmailInputField
+import me.darthwithap.hotel_app.ui.components.PasswordInputField
+import me.darthwithap.hotel_app.ui.components.PrimaryButton
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
@@ -85,15 +81,15 @@ fun RegisterScreenContent(
     Text(
       modifier = modifier,
       text = stringResource(id = R.string.register_screen_heading),
-      style = AppTheme.typography.headlineSmall24,
+      style = AppTheme.typography.headlineSmall24Regular,
       //color = AppTheme.primaryTextColor
     )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
       modifier = modifier,
       text = stringResource(id = R.string.register_screen_subheading),
-      style = AppTheme.typography.forms16,
-      //color = if(AppTheme.isDark) AppTheme.colorScheme.white70 else AppTheme.colorScheme.black70
+      style = AppTheme.typography.forms16Regular,
+      color = if (AppTheme.isDark) AppTheme.colors.white70 else AppTheme.colors.black70
     )
 
     Spacer(modifier = Modifier.height(26.dp))
@@ -103,88 +99,46 @@ fun RegisterScreenContent(
         .padding(horizontal = 24.dp),
       horizontalAlignment = Alignment.Start
     ) {
-      Text(text = "Email Address")
-
-
-      var emailInteractionSource = remember { MutableInteractionSource() }
-      val emailFocused by emailInteractionSource.collectIsFocusedAsState()
-      OutlinedTextField(
-        modifier = Modifier
-          .fillMaxWidth()
-          .then(
-            if (!emailFocused) Modifier.background(
-              color = Color.Gray,
-              shape = RoundedCornerShape(4.dp)
-            ) else Modifier
-          ),
-        value = "", // Todo: Add state.email value here
+      Text(
+        text = stringResource(R.string.email_address),
+        style = AppTheme.typography.caption12Regular
+      )
+      EmailInputField(
+        modifier = Modifier.fillMaxWidth(),
+        value = "", // state.email
         onValueChange = onEmailValueChange,
-        textStyle = TextStyle(),
-        singleLine = true,
-        placeholder = {
-          Text(
-            text = stringResource(R.string.enter_email_address),
-          )
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        interactionSource = emailInteractionSource
+        isError = false, // !state.isValidEmail
+        //supportingText = if (!state.isValidEmail) "Invalid email" else null,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
       )
 
       Spacer(modifier = Modifier.height(16.dp))
-      Text(text = "Set Password")
 
-      var passwordInteractionSource = remember { MutableInteractionSource() }
-      val passwordFocused by emailInteractionSource.collectIsFocusedAsState()
-      OutlinedTextField(
-        modifier = Modifier
-          .fillMaxWidth()
-          .then(
-            if (!passwordFocused) Modifier.background(
-              color = Color.Gray, // add unfocusedColor container color here
-              shape = RoundedCornerShape(4.dp)
-            ) else Modifier
-          ),
-        value = "", // Todo: Add state.password value here
+      Text(
+        text = stringResource(R.string.set_password),
+        style = AppTheme.typography.caption12Regular
+      )
+      PasswordInputField(
+        modifier = Modifier.fillMaxWidth(),
+        value = "Password", // state.password
         onValueChange = onPasswordValueChange,
-        textStyle = TextStyle(),
-        singleLine = true,
-        placeholder = {
-          Text(
-            text = stringResource(R.string.password_placeholder_text),
-          )
-        },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        interactionSource = passwordInteractionSource
+        isError = true, // !state.isValidPassword
+        //supportingText = if (!state.isValidPassword) "Invalid password" else null
       )
     }
 
     Spacer(modifier = Modifier.height(26.dp))
     PrivacyTermsText(onPrivacyPolicyClick = {}, onTermsAndConditionsClick = {})
     Spacer(modifier = Modifier.weight(1f))
-    var registerButtonEnabled = true
-    ElevatedButton(
-      modifier = modifier,
-      shape = RoundedCornerShape(4.dp),
-      colors = ButtonDefaults.buttonColors(
-        containerColor = Color.Black, // Todo : Add logic to see if enabled or disabled
-        contentColor = Color.White,
-        disabledContainerColor = Color.Gray,
-        disabledContentColor = Color.White,
-      ),
-      enabled = registerButtonEnabled,
-      onClick = onRegisterAndAcceptClick,
-      elevation = ButtonDefaults.elevatedButtonElevation(
-        defaultElevation = 4.dp
-      )
-    ) {
-      Text(
-        text = stringResource(id = R.string.register_and_accept),
-        style = MaterialTheme.typography.displaySmall,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis
-      )
-    }
 
+    var buttonEnabled by remember { mutableStateOf(true) }
+    PrimaryButton(
+      modifier = Modifier.fillMaxWidth(),
+      text = stringResource(R.string.register_and_accept),
+      onClick = onRegisterAndAcceptClick,
+      buttonSize = ButtonSize.Large,
+      enabled = buttonEnabled // state.isRegisterButtonEnabled
+    )
   }
 }
 

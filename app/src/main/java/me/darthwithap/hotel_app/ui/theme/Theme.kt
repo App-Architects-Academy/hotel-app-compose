@@ -38,7 +38,7 @@ object AppTheme {
   val shapes: AppShapes
     @Composable
     get() = LocalAppShapes.current
-  val colorScheme: AppColorScheme
+  val colors: AppColorScheme
     @Composable
     get() = LocalAppColorScheme.current
   val theme: DarkTheme
@@ -49,22 +49,22 @@ object AppTheme {
     get() = theme.isDark
   val surfaceColor: Color
     @Composable
-    get() = if (isDark) colorScheme.dark else colorScheme.light
+    get() = if (isDark) colors.dark else colors.light
   val onSurfaceColor: Color
     @Composable
-    get() = if (isDark) colorScheme.light else colorScheme.dark
+    get() = if (isDark) colors.light else colors.dark
   val surface30Color: Color
     @Composable
-    get() = if (isDark) colorScheme.black30 else colorScheme.white30
+    get() = if (isDark) colors.black30 else colors.white30
   val onSurface30Color: Color
     @Composable
-    get() = if (isDark) colorScheme.white30 else colorScheme.black30
+    get() = if (isDark) colors.white30 else colors.black30
   val surface40Color: Color
     @Composable
-    get() = if (isDark) colorScheme.black40 else colorScheme.white40
+    get() = if (isDark) colors.black40 else colors.white40
   val onSurface40Color: Color
     @Composable
-    get() = if (isDark) colorScheme.white40 else colorScheme.black40
+    get() = if (isDark) colors.white40 else colors.black40
   val primaryTextColor: Color
     @Composable
     get() = onSurfaceColor
