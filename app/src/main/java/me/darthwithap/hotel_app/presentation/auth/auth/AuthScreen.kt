@@ -69,7 +69,7 @@ fun AuthScreenContent(
       )
       Text(
         text = stringResource(id = R.string.auth_subtitle),
-        style = AppTheme.typography.headlineMedium26,
+        style = AppTheme.typography.headlineMedium26Regular,
         color = if (AppTheme.isDark) AppTheme.colorScheme.black70 else AppTheme.colorScheme.white70,
         modifier = Modifier.padding(top = 24.dp, bottom = 32.dp)
       )
@@ -99,7 +99,6 @@ fun AuthScreenContent(
         buttonSize = ButtonSize.Large,
         isAnti = true
       )
-
     }
   }
 }

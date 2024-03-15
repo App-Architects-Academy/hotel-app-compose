@@ -14,80 +14,145 @@ private val BeVietnamProFontFamily = FontFamily(
 )
 
 object FontSize {
-  val extraSmall = 10.sp
-  val small = 12.sp
-  val regular = 14.sp
-  val medium = 16.sp
-  val large = 18.sp
-  val extraLarge = 24.sp
-  val huge = 32.sp
+  val overline10 = 10.sp
+  val caption12 = 12.sp
+  val title14 = 14.sp
+  val forms16 = 16.sp
+  val subtitle18 = 18.sp
+  val subForms21 = 21.sp
+  val headlineSmall24 = 24.sp
+  val headlineMedium26 = 26.sp
+  val headlineLarge32 = 32.sp
 }
 
 data class AppTypography(
-  val overline10: TextStyle,
-  val caption12: TextStyle,
-  val title14: TextStyle,
-  val forms16: TextStyle,
-  val subtitle18: TextStyle,
-  val subForms21: TextStyle,
-  val headlineSmall24: TextStyle,
-  val headlineMedium26: TextStyle,
-  val headlineLarge32: TextStyle
+  val overline10Regular: TextStyle,
+  val overline10Bold: TextStyle,
+  val caption12Regular: TextStyle,
+  val caption12Bold: TextStyle,
+  val title14Regular: TextStyle,
+  val title14Bold: TextStyle,
+  val forms16Regular: TextStyle,
+  val forms16Bold: TextStyle,
+  val subtitle18Regular: TextStyle,
+  val subtitle18Bold: TextStyle,
+  val subForms21Regular: TextStyle,
+  val subForms21Bold: TextStyle,
+  val headlineSmall24Regular: TextStyle,
+  val headlineSmall24Bold: TextStyle,
+  val headlineMedium26Regular: TextStyle,
+  val headlineMedium26Bold: TextStyle,
+  val headlineLarge32Regular: TextStyle,
+  val headlineLarge32Bold: TextStyle
 )
 
 val appTypography = AppTypography(
-  overline10 = TextStyle(
+  overline10Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.extraSmall,
+    fontSize = FontSize.overline10,
     lineHeight = 14.sp
   ),
-  caption12 = TextStyle(
+  overline10Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.overline10,
+    lineHeight = 14.sp
+  ),
+  caption12Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.small,
+    fontSize = FontSize.caption12,
     lineHeight = 16.sp
   ),
-  title14 = TextStyle(
+  caption12Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.caption12,
+    lineHeight = 16.sp
+  ),
+  title14Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.regular,
+    fontSize = FontSize.title14,
     lineHeight = 18.sp
   ),
-  forms16 = TextStyle(
+  title14Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.title14,
+    lineHeight = 18.sp
+  ),
+  forms16Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.medium,
+    fontSize = FontSize.forms16,
     lineHeight = 22.sp
   ),
-  subtitle18 = TextStyle(
+  forms16Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.forms16,
+    lineHeight = 22.sp
+  ),
+  subtitle18Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.large,
+    fontSize = FontSize.subtitle18,
     lineHeight = 20.sp
   ),
-  subForms21 = TextStyle(
+  subtitle18Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.subtitle18,
+    lineHeight = 20.sp
+  ),
+  subForms21Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = 21.sp,
+    fontSize = FontSize.subForms21,
     lineHeight = 30.sp
   ),
-  headlineSmall24 = TextStyle(
+  subForms21Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.subForms21,
+    lineHeight = 30.sp
+  ),
+  headlineSmall24Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.extraLarge,
+    fontSize = FontSize.headlineSmall24,
     lineHeight = 32.sp
   ),
-  headlineMedium26 = TextStyle(
+  headlineSmall24Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.headlineSmall24,
+    lineHeight = 32.sp
+  ),
+  headlineMedium26Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = 26.sp,
+    fontSize = FontSize.headlineMedium26,
     lineHeight = 28.sp
   ),
-  headlineLarge32 = TextStyle(
+  headlineMedium26Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.headlineMedium26,
+    lineHeight = 28.sp
+  ),
+  headlineLarge32Regular = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
-    fontSize = FontSize.huge,
+    fontSize = FontSize.headlineLarge32,
+    lineHeight = 34.sp
+  ),
+  headlineLarge32Bold = TextStyle(
+    fontFamily = BeVietnamProFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = FontSize.headlineLarge32,
     lineHeight = 34.sp
   )
 )
