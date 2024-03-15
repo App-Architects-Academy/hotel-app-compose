@@ -1,5 +1,6 @@
 package me.darthwithap.hotel_app.presentation.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import me.darthwithap.hotel_app.presentation.auth.auth.AuthScreen
 import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
+import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
 fun HotelAppNavigator(
@@ -17,7 +19,7 @@ fun HotelAppNavigator(
 ) {
   val navController = rememberNavController()
   Scaffold(
-    modifier = modifier,
+    modifier = modifier.background(AppTheme.surfaceColor),
     topBar = {}
   ) { scaffoldPadding ->
     NavHost(

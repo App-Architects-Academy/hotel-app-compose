@@ -24,7 +24,7 @@ object FontSize {
 }
 
 data class AppTypography(
-  val outline10: TextStyle,
+  val overline10: TextStyle,
   val caption12: TextStyle,
   val title14: TextStyle,
   val forms16: TextStyle,
@@ -36,7 +36,7 @@ data class AppTypography(
 )
 
 val appTypography = AppTypography(
-  outline10 = TextStyle(
+  overline10 = TextStyle(
     fontFamily = BeVietnamProFontFamily,
     fontWeight = FontWeight.Normal,
     fontSize = FontSize.extraSmall,

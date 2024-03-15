@@ -6,23 +6,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import me.darthwithap.hotel_app.R
+import me.darthwithap.hotel_app.ui.components.ButtonSize
+import me.darthwithap.hotel_app.ui.components.PrimaryButton
+import me.darthwithap.hotel_app.ui.components.SecondaryButton
+import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
 fun AuthScreen(
@@ -59,40 +59,47 @@ fun AuthScreenContent(
     horizontalAlignment = Alignment.Start
   ) {
     Column(modifier = Modifier.padding(top = 40.dp)) {
+      val drawable =
+        if (AppTheme.isDark) R.drawable.app_logo_horizontal_night else R.drawable.app_logo_horizontal
       Image(
-        painter = painterResource(id = R.drawable.app_logo_horizontal),
+        painter = painterResource(id = drawable),
         contentDescription = stringResource(
-          id = R.string.app_logo_small_white
+          id = R.string.app_logo_small
         )
       )
       Text(
         text = stringResource(id = R.string.auth_subtitle),
-        style = MaterialTheme.typography.displaySmall,
-        color = Color.White,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.padding(top = 8.dp, bottom = 32.dp)
+        style = AppTheme.typography.headlineMedium26,
+        color = if (AppTheme.isDark) AppTheme.colorScheme.black70 else AppTheme.colorScheme.white70,
+        modifier = Modifier.padding(top = 24.dp, bottom = 32.dp)
       )
     }
 
     Spacer(modifier = Modifier.weight(1f))
 
     Column(modifier = Modifier.padding(bottom = 48.dp)) {
-      Button(
-        onClick = onLoginClick,
+      PrimaryButton(
         modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White)
-      ) {
-        Text(text = stringResource(id = R.string.login), color = Color.Black)
-      }
-      OutlinedButton(
+        text = stringResource(id = R.string.login),
+        onClick = onLoginClick,
+        buttonSize = ButtonSize.Large,
+        buttonColors = ButtonDefaults.buttonColors(
+          containerColor = AppTheme.surfaceColor,
+          contentColor = AppTheme.onSurfaceColor,
+          disabledContainerColor = if (AppTheme.isDark) AppTheme.colorScheme.black30
+          else AppTheme.colorScheme.white30,
+          disabledContentColor = AppTheme.onSurfaceColor
+        )
+      )
+      Spacer(modifier = Modifier.height(8.dp))
+      SecondaryButton(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(id = R.string.register),
         onClick = onRegisterClick,
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(top = 8.dp),
-        colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent)
-      ) {
-        Text(text = stringResource(id = R.string.register), color = Color.White)
-      }
+        buttonSize = ButtonSize.Large,
+        isAnti = true
+      )
+
     }
   }
 }

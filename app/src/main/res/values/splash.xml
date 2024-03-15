@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--  Splash Screen Theme-->
+
+  <style name="Theme.Splash" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+    <item name="windowSplashScreenBackground">#F2F2F2</item>
+    <item name="postSplashScreenTheme">@style/Theme.HotelApp</item>
+  </style>
+</resources>

@@ -44,10 +44,31 @@ object AppTheme {
   val theme: DarkTheme
     @Composable
     get() = LocalAppTheme.current
+  val isDark: Boolean
+    @Composable
+    get() = theme.isDark
+  val surfaceColor: Color
+    @Composable
+    get() = if (isDark) colorScheme.dark else colorScheme.light
+  val onSurfaceColor: Color
+    @Composable
+    get() = if (isDark) colorScheme.light else colorScheme.dark
+  val surface30Color: Color
+    @Composable
+    get() = if (isDark) colorScheme.black30 else colorScheme.white30
+  val onSurface30Color: Color
+    @Composable
+    get() = if (isDark) colorScheme.white30 else colorScheme.black30
+  val surface40Color: Color
+    @Composable
+    get() = if (isDark) colorScheme.black40 else colorScheme.white40
+  val onSurface40Color: Color
+    @Composable
+    get() = if (isDark) colorScheme.white40 else colorScheme.black40
   val primaryTextColor: Color
     @Composable
-    get() = if (theme.isDark) colorScheme.white100 else colorScheme.black100
+    get() = onSurfaceColor
   val secondaryTextColor: Color
     @Composable
-    get() = if (theme.isDark) colorScheme.black40 else colorScheme.white40
+    get() = onSurface40Color
 }

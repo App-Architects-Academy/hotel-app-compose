@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import me.darthwithap.hotel_app.R
+import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
 fun RegisterScreen(
@@ -84,15 +85,15 @@ fun RegisterScreenContent(
     Text(
       modifier = modifier,
       text = stringResource(id = R.string.register_screen_heading),
-      style = MaterialTheme.typography.bodyMedium,
-      color = Color.Black,
+      style = AppTheme.typography.headlineSmall24,
+      //color = AppTheme.primaryTextColor
     )
     Spacer(modifier = Modifier.height(4.dp))
     Text(
       modifier = modifier,
       text = stringResource(id = R.string.register_screen_subheading),
-      style = MaterialTheme.typography.bodySmall,
-      color = Color.Gray
+      style = AppTheme.typography.forms16,
+      //color = if(AppTheme.isDark) AppTheme.colorScheme.white70 else AppTheme.colorScheme.black70
     )
 
     Spacer(modifier = Modifier.height(26.dp))
