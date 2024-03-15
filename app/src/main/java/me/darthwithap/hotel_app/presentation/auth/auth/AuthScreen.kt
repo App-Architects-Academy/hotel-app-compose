@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -74,7 +73,6 @@ fun AuthScreenContent(
         modifier = Modifier.padding(top = 24.dp, bottom = 32.dp)
       )
     }
-
     Spacer(modifier = Modifier.weight(1f))
 
     Column(modifier = Modifier.padding(bottom = 48.dp)) {
@@ -83,13 +81,7 @@ fun AuthScreenContent(
         text = stringResource(id = R.string.login),
         onClick = onLoginClick,
         buttonSize = ButtonSize.Large,
-        buttonColors = ButtonDefaults.buttonColors(
-          containerColor = AppTheme.surfaceColor,
-          contentColor = AppTheme.onSurfaceColor,
-          disabledContainerColor = if (AppTheme.isDark) AppTheme.colors.black30
-          else AppTheme.colors.white30,
-          disabledContentColor = AppTheme.onSurfaceColor
-        )
+        isAnti = true
       )
       Spacer(modifier = Modifier.height(8.dp))
       SecondaryButton(

@@ -34,7 +34,7 @@ import me.darthwithap.hotel_app.R
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 object InputFieldDefaults {
-  val iconSize: Dp = 16.dp
+  val iconSize: Dp = 24.dp
   val shape: Shape
     @Composable get() = AppTheme.shapes.extraSmall
 
@@ -237,7 +237,7 @@ fun PasswordInputField(
         contentDescription = stringResource(R.string.cd_password_icon)
       )
     },
-    visualTransformation = if (passwordHidden) PasswordVisualTransformation('●') else VisualTransformation.None,
+    visualTransformation = if (passwordHidden) PasswordVisualTransformation('*') else VisualTransformation.None,
     keyboardOptions = keyboardOptions
   )
 }

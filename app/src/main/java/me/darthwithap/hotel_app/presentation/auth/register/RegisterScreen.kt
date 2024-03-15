@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import me.darthwithap.hotel_app.R
 import me.darthwithap.hotel_app.ui.components.ButtonSize
 import me.darthwithap.hotel_app.ui.components.EmailInputField
+import me.darthwithap.hotel_app.ui.components.NavAppBar
 import me.darthwithap.hotel_app.ui.components.PasswordInputField
 import me.darthwithap.hotel_app.ui.components.PrimaryButton
 import me.darthwithap.hotel_app.ui.components.PrivacyTermsText
@@ -66,19 +67,14 @@ fun RegisterScreenContent(
 ) {
   // Todo: Add Loading Widget
   Column(modifier = modifier.padding(16.dp)) {
-    // Navigation bar with back icon
-    Row(
+    NavAppBar(
       modifier = Modifier
         .fillMaxWidth(),
-      verticalAlignment = Alignment.CenterVertically
-    ) {
-      IconButton(onClick = onNavigateBackClick) {
-        Icon(
-          painter = painterResource(R.drawable.nav_appbar_back_chevron_black),
-          contentDescription = stringResource(R.string.navigate_up),
-        )
-      }
-    }
+      title = "",
+      onNavigateClick = onNavigateBackClick,
+      actions = {}
+    )
+
     Text(
       modifier = modifier,
       text = stringResource(id = R.string.register_screen_heading),
