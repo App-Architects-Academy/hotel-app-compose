@@ -55,6 +55,8 @@ fun RegisterScreenContent(
   onRegisterAndAcceptClick: () -> Unit,
   modifier: Modifier
 ) {
+
+
   // Todo: Add Loading Widget
   Column(modifier = modifier.padding(16.dp)) {
     NavAppBar(

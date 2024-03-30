@@ -46,9 +46,6 @@ fun HotelAppNavigator(
       composable(Routes.LoginScreen) {
         LoginScreen(
           onNavigateBackClick = navController::navigateUp,
-          onLoginClick = { navController.navigate(Routes.HomeScreen) },
-          onEmailValueChange = {},
-          onPasswordValueChange = {}
         )
       }
       composable(Routes.HomeScreen) {

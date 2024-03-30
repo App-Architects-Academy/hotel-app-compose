@@ -1,5 +1,6 @@
 package me.darthwithap.hotel_app.presentation.auth.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,103 +30,118 @@ import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 @Composable
 fun LoginScreen(
-  onNavigateBackClick: () -> Unit,
-  onLoginClick: () -> Unit,
-  onEmailValueChange: (String) -> Unit,
-  onPasswordValueChange: (String) -> Unit,
-  modifier: Modifier = Modifier
+    onNavigateBackClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-  LoginScreenContent(
-    onNavigateBackClick,
-    onEmailValueChange,
-    onPasswordValueChange,
-    onLoginClick,
-    modifier
-      .navigationBarsPadding()
-      .systemBarsPadding(),
-  )
+
+    val onLoginClick: (String, String) -> Unit by remember {
+        mutableStateOf({ email, pass ->
+            Log.d("Login Click", "$email, $pass")
+        })
+    }
+
+    LoginScreenContent(
+        onNavigateBackClick,
+        onLoginClick,
+        modifier
+            .navigationBarsPadding()
+            .systemBarsPadding(),
+    )
 }
 
 @Composable
 fun LoginScreenContent(
-  onNavigateBackClick: () -> Unit,
-  onEmailValueChange: (String) -> Unit,
-  onPasswordValueChange: (String) -> Unit,
-  onLoginClick: () -> Unit,
-  modifier: Modifier
+    onNavigateBackClick: () -> Unit,
+    onLoginClick: (email: String, pass: String) -> Unit,
+    modifier: Modifier
 ) {
-  // Todo: Add Loading Widget
-  Column(modifier = modifier.padding(16.dp)) {
-    NavAppBar(
-      modifier = Modifier
-        .fillMaxWidth(),
-      title = "",
-      onNavigateClick = onNavigateBackClick,
-      actions = {}
-    )
+    // Todo: Add Loading Widget
 
-    Text(
-      modifier = modifier,
-      text = stringResource(id = R.string.login_screen_heading),
-      style = AppTheme.typography.headlineSmall24Regular,
-      color = AppTheme.primaryTextColor
-    )
-    Spacer(modifier = Modifier.height(4.dp))
-    Text(
-      modifier = modifier,
-      text = stringResource(id = R.string.login_screen_subheading),
-      style = AppTheme.typography.forms16Regular,
-      color = if (AppTheme.isDark) AppTheme.colors.white70 else AppTheme.colors.black70
-    )
-
-    Spacer(modifier = Modifier.height(26.dp))
-    Column(
-      modifier = Modifier
-        .fillMaxWidth(),
-      horizontalAlignment = Alignment.Start
-    ) {
-      Text(
-        text = stringResource(R.string.email_address),
-        style = AppTheme.typography.caption12Regular
-      )
-      EmailInputField(
-        modifier = Modifier.fillMaxWidth(),
-        value = "", // state.email
-        onValueChange = onEmailValueChange,
-        isError = false, // !state.isValidEmail
-        //supportingText = if (!state.isValidEmail) "Invalid email" else null,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
-      )
-
-      Spacer(modifier = Modifier.height(16.dp))
-
-      Text(
-        text = stringResource(R.string.set_password),
-        style = AppTheme.typography.caption12Regular
-      )
-      PasswordInputField(
-        modifier = Modifier.fillMaxWidth(),
-        value = "Password", // state.password
-        onValueChange = onPasswordValueChange,
-        isError = true, // !state.isValidPassword
-        //supportingText = if (!state.isValidPassword) "Invalid password" else null
-      )
+    var passwordInput by remember {
+        mutableStateOf("")
     }
 
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(
-      text = stringResource(R.string.forgot_password),
-      style = AppTheme.typography.caption12Regular.copy(color = AppTheme.colors.primary)
-    )
-    Spacer(modifier = Modifier.weight(1f))
+    var emailInput by remember {
+        mutableStateOf("")
+    }
 
-    var buttonEnabled by remember { mutableStateOf(true) }
-    PrimaryButton(
-      modifier = Modifier.fillMaxWidth(),
-      text = stringResource(R.string.login),
-      onClick = onLoginClick,
-      buttonSize = ButtonSize.Large,
-      enabled = buttonEnabled // state.isRegisterButtonEnabled
-    )
-  }
+    Column(modifier = modifier.padding(16.dp)) {
+        NavAppBar(
+            modifier = Modifier
+                .fillMaxWidth(),
+            title = "",
+            onNavigateClick = onNavigateBackClick,
+            actions = {}
+        )
+
+        Text(
+            modifier = modifier,
+            text = stringResource(id = R.string.login_screen_heading),
+            style = AppTheme.typography.headlineSmall24Regular,
+            color = AppTheme.primaryTextColor
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            modifier = modifier,
+            text = stringResource(id = R.string.login_screen_subheading),
+            style = AppTheme.typography.forms16Regular,
+            color = if (AppTheme.isDark) AppTheme.colors.white70 else AppTheme.colors.black70
+        )
+
+        Spacer(modifier = Modifier.height(26.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = stringResource(R.string.email_address),
+                style = AppTheme.typography.caption12Regular
+            )
+            EmailInputField(
+                modifier = Modifier.fillMaxWidth(),
+                value = emailInput, // state.email
+                onValueChange = {
+                    emailInput = it
+                },
+                isError = false, // !state.isValidEmail
+                //supportingText = if (!state.isValidEmail) "Invalid email" else null,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(R.string.set_password),
+                style = AppTheme.typography.caption12Regular
+            )
+            PasswordInputField(
+                modifier = Modifier.fillMaxWidth(),
+                value = passwordInput, // state.password
+                onValueChange = {
+                    passwordInput = it
+                },
+                isError = true, // !state.isValidPassword
+                //supportingText = if (!state.isValidPassword) "Invalid password" else null
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(R.string.forgot_password),
+            style = AppTheme.typography.caption12Regular.copy(color = AppTheme.colors.primary)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+
+        var buttonEnabled by remember { mutableStateOf(true) }
+        PrimaryButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.login),
+            onClick = {
+                onLoginClick("", passwordInput)
+            },
+            buttonSize = ButtonSize.Large,
+            enabled = buttonEnabled // state.isRegisterButtonEnabled
+        )
+    }
 }
