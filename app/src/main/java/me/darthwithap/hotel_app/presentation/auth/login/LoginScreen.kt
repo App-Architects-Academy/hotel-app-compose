@@ -1,7 +1,10 @@
 package me.darthwithap.hotel_app.presentation.auth.login
 
 import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +34,7 @@ import me.darthwithap.hotel_app.ui.theme.AppTheme
 @Composable
 fun LoginScreen(
     onNavigateBackClick: () -> Unit,
+    onRegisterClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -43,6 +47,7 @@ fun LoginScreen(
     LoginScreenContent(
         onNavigateBackClick,
         onLoginClick,
+        onRegisterClick,
         modifier
             .navigationBarsPadding()
             .systemBarsPadding(),
@@ -53,6 +58,7 @@ fun LoginScreen(
 fun LoginScreenContent(
     onNavigateBackClick: () -> Unit,
     onLoginClick: (email: String, pass: String) -> Unit,
+    onRegisterClick: (email: String, pass: String) -> Unit,
     modifier: Modifier
 ) {
     // Todo: Add Loading Widget
@@ -127,10 +133,25 @@ fun LoginScreenContent(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(R.string.forgot_password),
-            style = AppTheme.typography.caption12Regular.copy(color = AppTheme.colors.primary)
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Text(
+                text = stringResource(R.string.forgot_password),
+                style = AppTheme.typography.caption12Regular.copy(color = AppTheme.colors.primary)
+            )
+
+
+            Text(
+                text = "Register",
+                style = AppTheme.typography.caption12Regular.copy(color = AppTheme.colors.primary),
+                modifier = Modifier.clickable {
+                    onRegisterClick(emailInput, passwordInput)
+                }
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
 
         var buttonEnabled by remember { mutableStateOf(true) }
@@ -138,7 +159,7 @@ fun LoginScreenContent(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.login),
             onClick = {
-                onLoginClick("", passwordInput)
+                onLoginClick(emailInput, passwordInput)
             },
             buttonSize = ButtonSize.Large,
             enabled = buttonEnabled // state.isRegisterButtonEnabled

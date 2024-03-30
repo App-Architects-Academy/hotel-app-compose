@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import me.darthwithap.hotel_app.presentation.auth.auth.AuthScreen
 import me.darthwithap.hotel_app.presentation.auth.login.LoginScreen
 import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
@@ -35,17 +36,33 @@ fun HotelAppNavigator(
           navController.navigate(route = Routes.RegisterScreen)
         })
       }
-      composable(Routes.RegisterScreen) {
+      composable(
+        Routes.RegisterScreen,
+        arguments = listOf(
+          navArgument("email") {
+            defaultValue = ""
+          },
+          navArgument("pass") {
+            defaultValue = ""
+          }
+        )
+      ) { backStackEntry ->
         RegisterScreen(
           onNavigateBackClick = navController::navigateUp,
           onRegisterAndAcceptClick = { navController.navigate(Routes.HomeScreen) },
           onEmailValueChange = {},
-          onPasswordValueChange = {}
+          onPasswordValueChange = {},
+          prefillEmail = backStackEntry.arguments?.getString("email", ""),
+          prefillPass = backStackEntry.arguments?.getString("pass", ""),
         )
       }
       composable(Routes.LoginScreen) {
         LoginScreen(
           onNavigateBackClick = navController::navigateUp,
+          onRegisterClick = { email, pass ->
+            val route = Routes.RegisterScreen.replace("{email}", email).replace("{pass}", pass)
+            navController.navigate(route)
+          }
         )
       }
       composable(Routes.HomeScreen) {
