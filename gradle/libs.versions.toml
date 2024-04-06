@@ -11,6 +11,7 @@ composeBom = "2023.08.00"
 splashscreen = "1.0.1"
 navigationCompose = "2.7.7"
 voyagerVersion = "1.0.0"
+mavericks = "3.0.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +32,7 @@ splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "spla
 navigation-compose = {module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose"}
 voyager-hilt = { module = "cafe.adriel.voyager:voyager-hilt", version.ref = "voyagerVersion" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
+mavericks = { module = "com.airbnb.android:mavericks", version.ref = "mavericks"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
