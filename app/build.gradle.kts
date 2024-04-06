@@ -65,6 +65,12 @@ dependencies {
   debugImplementation(libs.androidx.ui.tooling)
   debugImplementation(libs.androidx.ui.test.manifest)
 
+  //Voyager
+  // Navigator
+  implementation(libs.voyager.navigator)
+  // Hilt integration
+  implementation(libs.voyager.hilt)
+
   // Splash Screen
   implementation(libs.splashscreen)
   // Navigation Compose

@@ -23,13 +23,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import me.darthwithap.hotel_app.R
+import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
+import me.darthwithap.hotel_app.presentation.navigation.Routes
 import me.darthwithap.hotel_app.ui.components.ButtonSize
 import me.darthwithap.hotel_app.ui.components.EmailInputField
 import me.darthwithap.hotel_app.ui.components.NavAppBar
 import me.darthwithap.hotel_app.ui.components.PasswordInputField
 import me.darthwithap.hotel_app.ui.components.PrimaryButton
 import me.darthwithap.hotel_app.ui.theme.AppTheme
+
+object LoginScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.current
+        LoginScreen(
+            onNavigateBackClick = {
+                navigator?.pop()
+            },
+            onRegisterClick = { email, pass ->
+                navigator?.push(RegisterScreen(
+                    prefillEmail = email, prefillPass = pass
+                ))
+            }
+        )
+    }
+}
 
 @Composable
 fun LoginScreen(
