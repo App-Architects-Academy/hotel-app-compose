@@ -44,6 +44,7 @@ object LoginScreen : Screen {
                 navigator?.pop()
             },
             onRegisterClick = { email, pass ->
+                navigator?.pop()
                 navigator?.push(RegisterScreen(
                     prefillEmail = email, prefillPass = pass
                 ))
