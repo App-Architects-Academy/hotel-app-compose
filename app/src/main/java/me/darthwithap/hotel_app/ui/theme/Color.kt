@@ -1,5 +1,6 @@
 package me.darthwithap.hotel_app.ui.theme
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
@@ -44,7 +45,11 @@ data class AppColorScheme(
   val primaryDark: Color = white100,
   val interactiveDark: Color = white10,
   val disableDark: Color = white30
-)
+) {
+  companion object {
+    val primaryColor = Color(0xFF2664ED)
+  }
+}
 
 val appColorScheme = AppColorScheme()
 

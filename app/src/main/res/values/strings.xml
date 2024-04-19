@@ -17,4 +17,6 @@
   <string name="set_password">Set Password</string>
   <string name="login_screen_heading">Welcome Back!</string>
   <string name="forgot_password">Forgot Password?</string>
+  <string name="wishlist_button">Wishlist Button</string>
+  <string name="share_button">Share Button</string>
 </resources>

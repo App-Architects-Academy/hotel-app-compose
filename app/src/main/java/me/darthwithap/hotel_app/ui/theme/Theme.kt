@@ -71,4 +71,7 @@ object AppTheme {
   val secondaryTextColor: Color
     @Composable
     get() = onSurface40Color
+  val errorColor: Color
+    @Composable
+    get() = colors.red
 }
