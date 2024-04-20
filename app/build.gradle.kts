@@ -75,4 +75,10 @@ dependencies {
   implementation(libs.splashscreen)
 
   implementation(libs.mavericks)
+
+  // Coil
+  implementation(libs.coil.compose)
+
+  // Desugaring
+  coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
