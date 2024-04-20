@@ -17,4 +17,17 @@
   <string name="set_password">Set Password</string>
   <string name="login_screen_heading">Welcome Back!</string>
   <string name="forgot_password">Forgot Password?</string>
+    <string name="reservation_success">Reservation Success</string>
+    <string name="invoice">Invoice</string>
+    <string name="hotel_info">Hotel Info</string>
+    <string name="date">Date</string>
+  <string name="guest">Guest</string>
+    <string name="haven_t_booked_flights">Haven\'t booked flights?</string>
+  <string name="our_recommendation_flights_tickets_to_city">Our recommendation flights tickets to %s</string>
+    <string name="arrow_forward">Arrow Forward</string>
+    <string name="today">Today</string>
+  <string name="tomorrow">Tomorrow</string>
+  <string name="custom">Custom</string>
+  <string name="book_tickets_for_date">Book tickets for %s</string>
+  <string name="back_to_home">Back to Home</string>
 </resources>
