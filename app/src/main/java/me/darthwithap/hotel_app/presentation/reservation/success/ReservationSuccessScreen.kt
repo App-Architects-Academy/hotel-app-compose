@@ -119,28 +119,28 @@ private fun ReservationTitle(
             textAlign = TextAlign.Center,
             text = buildAnnotatedString {
                 withStyle(
-                    style = AppTheme.typography.forms16Regular.toSpanStyle()
+                    style = AppTheme.typography.title14Regular.toSpanStyle()
                         .copy(color = AppTheme.colors.black40)
                 ) {
                     append("Your reservation at ")
                 }
 
                 withStyle(
-                    style = AppTheme.typography.forms16Bold.toSpanStyle()
+                    style = AppTheme.typography.title14Bold.toSpanStyle()
                         .copy(color = AppTheme.colors.black70)
                 ) {
                     append("Saza Villa at Bali ")
                 }
 
                 withStyle(
-                    style = AppTheme.typography.forms16Regular.toSpanStyle()
+                    style = AppTheme.typography.title14Regular.toSpanStyle()
                         .copy(color = AppTheme.colors.black40)
                 ) {
                     append("booked at ")
                 }
 
                 withStyle(
-                    style = AppTheme.typography.forms16Bold.toSpanStyle()
+                    style = AppTheme.typography.title14Bold.toSpanStyle()
                         .copy(color = AppTheme.colors.black70)
                 ) {
                     append("20 June - 27 Aug")
@@ -214,7 +214,7 @@ private fun InvoiceHeader() {
 private fun InvoiceHotelInfo() {
     Text(
         text = stringResource(R.string.hotel_info),
-        style = AppTheme.typography.title14Regular,
+        style = AppTheme.typography.caption12Regular,
         color = AppTheme.colors.black40
     )
     Spacer(modifier = Modifier.height(4.dp))
@@ -229,7 +229,7 @@ private fun InvoiceHotelInfo() {
 private fun InvoiceDateInfo() {
     Text(
         text = stringResource(R.string.date),
-        style = AppTheme.typography.title14Regular,
+        style = AppTheme.typography.caption12Regular,
         color = AppTheme.colors.black40
     )
     Spacer(modifier = Modifier.height(4.dp))
@@ -244,7 +244,7 @@ private fun InvoiceDateInfo() {
 private fun InvoiceGuestInfo() {
     Text(
         text = stringResource(R.string.guest),
-        style = AppTheme.typography.title14Regular,
+        style = AppTheme.typography.caption12Regular,
         color = AppTheme.colors.black40
     )
     Spacer(modifier = Modifier.height(4.dp))
@@ -296,6 +296,37 @@ private fun FlightRecommendationCard(
 }
 
 @Composable
+private fun FlightRecommendationTitle() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            Text(
+                text = stringResource(R.string.haven_t_booked_flights),
+                style = AppTheme.typography.subtitle18Regular,
+                color = AppTheme.colors.white100
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(
+                    R.string.our_recommendation_flights_tickets_to_city,
+                    "Bali"
+                ),
+                style = AppTheme.typography.caption12Regular,
+                color = AppTheme.colors.white40
+            )
+        }
+
+        Image(
+            painter = painterResource(id = R.drawable.round_white_arrow_forward_24),
+            contentDescription = stringResource(R.string.arrow_forward),
+        )
+    }
+}
+
+@Composable
 private fun FlightRecommendationBookingCard() {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -327,37 +358,6 @@ private fun FlightRecommendationBookingCard() {
             drawableId = R.drawable.ic_custom,
             contentDescription = stringResource(R.string.book_tickets_for_date, R.string.custom),
             contentText = stringResource(R.string.custom)
-        )
-    }
-}
-
-@Composable
-private fun FlightRecommendationTitle() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column {
-            Text(
-                text = stringResource(R.string.haven_t_booked_flights),
-                style = AppTheme.typography.subtitle18Regular,
-                color = AppTheme.colors.white100
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = stringResource(
-                    R.string.our_recommendation_flights_tickets_to_city,
-                    "Bali"
-                ),
-                style = AppTheme.typography.title14Regular,
-                color = AppTheme.colors.white40
-            )
-        }
-
-        Image(
-            painter = painterResource(id = R.drawable.round_white_arrow_forward_24),
-            contentDescription = stringResource(R.string.arrow_forward),
         )
     }
 }
