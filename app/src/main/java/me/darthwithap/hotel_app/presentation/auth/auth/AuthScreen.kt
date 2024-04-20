@@ -24,7 +24,7 @@ import me.darthwithap.hotel_app.presentation.auth.login.LoginScreen
 import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
 import me.darthwithap.hotel_app.ui.components.ButtonSize
 import me.darthwithap.hotel_app.ui.components.PrimaryButton
-import me.darthwithap.hotel_app.ui.components.SecondaryButton
+import me.darthwithap.hotel_app.ui.components.OutlineButton
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
 object AuthScreen : Screen {
@@ -107,7 +107,7 @@ fun AuthScreenContent(
                 isAnti = true
             )
             Spacer(modifier = Modifier.height(8.dp))
-            SecondaryButton(
+            OutlineButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.register),
                 onClick = onRegisterClick,

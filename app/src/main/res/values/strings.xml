@@ -19,4 +19,8 @@
   <string name="forgot_password">Forgot Password?</string>
   <string name="wishlist_button">Wishlist Button</string>
   <string name="share_button">Share Button</string>
+  <string name="per_night">/night</string>
+  <string name="check_availability">Check Availability</string>
+  <string name="about_this_place">About this Place</string>
+  <string name="read_more">Read More</string>
 </resources>

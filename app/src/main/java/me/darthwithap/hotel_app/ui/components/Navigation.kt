@@ -47,11 +47,13 @@ fun NavAppBar(
         .padding(top = 14.dp, start = 16.dp, end = 16.dp),
       verticalAlignment = Alignment.CenterVertically
     ) {
-      IconButton(onClick = onNavigateClick) {
+      IconButton(
+        modifier = Modifier.padding(end = 16.dp),
+        onClick = onNavigateClick
+      ) {
         Icon(
           modifier = Modifier
-            .size(24.dp)
-            .padding(end = 16.dp),
+            .size(24.dp),
           painter = painterResource(R.drawable.nav_appbar_back_chevron_black),
           contentDescription = stringResource(R.string.navigate_up),
           tint = tint,
@@ -64,7 +66,7 @@ fun NavAppBar(
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
       )
-      Spacer(modifier = Modifier.width(12.dp))
+      Spacer(modifier = Modifier.width(8.dp))
       Row(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.End
