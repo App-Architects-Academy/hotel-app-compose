@@ -1,23 +1,17 @@
 package me.darthwithap.hotel_app.domain.models
 
 import me.darthwithap.hotel_app.domain.values.AmenityIconResId
-import java.time.LocalDate
 
 data class HotelDetails(
   val hotel: Hotel,
   val description: String,
   val images: List<String>,
   val hotelInformation: HotelInformation,
-  val features: List<HotelFeature>,
+  val features: List<Amenity>,
   val reviews: List<Review>,
   val rooms: List<Room>,
   val roomTypes: List<RoomType>
 ) {
-  data class HotelFeature(
-    val feature: String,
-    val description: String,
-    val iconId: AmenityIconResId
-  )
 
   data class HotelInformation(
     val numberOfBedrooms: Int,

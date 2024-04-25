@@ -1,6 +1,5 @@
 package me.darthwithap.hotel_app.ui.theme
 
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
@@ -22,8 +21,9 @@ data class AppColorScheme(
   val white10: Color = Color(0x1AFFFFFF),
   val white05: Color = Color(0x0DFFFFFF),
 
-  val greyscale900: Color = Color(0xFF212121),
+  val dark1: Color = Color(0xFF212121),
   val dark2: Color = Color(0xFF1F222A),
+  val dark3: Color = Color(0xFF35383F),
 
   // Solid
   val primary: Color = Color(0xFF2664ED),

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,57 +28,53 @@ fun TitleCard(
   modifier: Modifier = Modifier,
   onClick: () -> Unit = {}
 ) {
-  Surface(
+  Row(
+    verticalAlignment = Alignment.CenterVertically,
     modifier = modifier
       .fillMaxWidth()
-      .padding(4.dp)
+      .clickable(onClick = onClick)
       .background(AppTheme.surfaceColor)
-      .clickable(onClick = onClick),
   ) {
-    Row(
-      verticalAlignment = Alignment.CenterVertically,
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 8.dp)
-    ) {
 
-      if (iconPosition == IconPosition.Left && icon != null) {
-        Icon(
-          painter = painterResource(id = icon),
-          contentDescription = null,
-          modifier = Modifier.size(24.dp)
-        )
-        Spacer(Modifier.width(16.dp))
-      }
+    if (iconPosition == IconPosition.Left && icon != null) {
+      Icon(
+        painter = painterResource(id = icon),
+        contentDescription = null,
+        modifier = Modifier.size(24.dp),
+        tint = AppTheme.onSurfaceColor
+      )
+      Spacer(Modifier.width(16.dp))
+    }
 
-      Column(modifier = Modifier.weight(1f)) {
+    Column(modifier = Modifier.weight(1f)) {
+      Text(
+        text = title,
+        style = AppTheme.typography.subtitle18Regular,
+        color = AppTheme.primaryTextColor,
+      )
+
+      subtitle?.let {
         Text(
-          text = title,
-          style = AppTheme.typography.subtitle18Regular,
-          color = AppTheme.primaryTextColor
-        )
-
-        subtitle?.let {
-          Text(
-            text = it,
-            style = AppTheme.typography.caption12Regular,
-            color = AppTheme.onSurface40Color
-          )
-        }
-
-      }
-
-      if (iconPosition == IconPosition.Right && icon != null) {
-        Spacer(Modifier.width(16.dp))
-        Icon(
-          painter = painterResource(id = icon),
-          contentDescription = null,
-          modifier = Modifier.size(24.dp)
+          text = it,
+          style = AppTheme.typography.caption12Regular,
+          color = AppTheme.onSurface40Color
         )
       }
+
+    }
+
+    if (iconPosition == IconPosition.Right && icon != null) {
+      Spacer(Modifier.width(16.dp))
+      Icon(
+        painter = painterResource(id = icon),
+        contentDescription = null,
+        modifier = Modifier.size(24.dp),
+        tint = AppTheme.onSurfaceColor
+      )
     }
   }
 }
+
 
 enum class IconPosition {
   Left, Right

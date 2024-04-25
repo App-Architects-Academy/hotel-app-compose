@@ -2,10 +2,12 @@ package me.darthwithap.hotel_app.ui.components.cards
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,6 +36,8 @@ import me.darthwithap.hotel_app.ui.theme.AppTheme
 fun ImageCard(
   imageUrl: String,
   onClick: () -> Unit,
+  selected: Boolean = false,
+  selectable: Boolean = false,
   toggled: Boolean = false,
   @DrawableRes toggledIcon: Int? = null,
   @DrawableRes untoggledIcon: Int? = null,
@@ -50,7 +54,7 @@ fun ImageCard(
   Surface(
     modifier = modifier
       .width(aspectRatio.width)
-      .clip(AppTheme.shapes.small),
+      .clip(AppTheme.shapes.extraSmall),
     color = if (AppTheme.isDark) AppTheme.colors.dark2 else AppTheme.colors.light,
     onClick = onClick
   ) {
@@ -60,69 +64,81 @@ fun ImageCard(
     ) {
 
       Surface(
-        modifier = Modifier.size(width = aspectRatio.width, aspectRatio.height)
-          .clip(AppTheme.shapes.small),
+        modifier = Modifier
+          .size(width = aspectRatio.width, aspectRatio.height)
+          .clip(AppTheme.shapes.extraSmall),
         shadowElevation = 2.dp,
       ) {
-        AsyncImage(
+        val borderPadding = if (selected && selectable) 3.dp else 0.dp
+        val borderColor = if (selected && selectable) AppTheme.colors.primary else AppTheme.surfaceColor
+        Box(
           modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(aspectRatio.width / aspectRatio.height)
-            .clip(AppTheme.shapes.small),
-          model = imageUrl,
-          contentScale = ContentScale.Crop,
-          contentDescription = null
-        )
-        // Overlay for the image if exists
-        Column(
-          modifier = Modifier.fillMaxWidth()
+            .fillMaxSize()
+            .background(borderColor)
+            .padding(borderPadding)
+            .clip(AppTheme.shapes.extraSmall)
         ) {
-          val icon = when {
-            toggled && toggledIcon != null -> toggledIcon
-            !toggled && untoggledIcon != null -> untoggledIcon
-            else -> null
-          }
-          icon?.let {
-            IconButton(
-              onClick = { onIconToggle(!toggled) },
-              modifier = Modifier
-                .align(Alignment.End)
-                .padding(12.dp)
-                .size(28.dp)
-                .background(
-                  color = if (AppTheme.isDark) AppTheme.colors.black70 else AppTheme.colors.white70,
-                  shape = CircleShape
+          AsyncImage(
+            modifier = Modifier
+              .fillMaxWidth()
+              .aspectRatio(aspectRatio.width / aspectRatio.height)
+              .clip(AppTheme.shapes.extraSmall),
+            model = imageUrl,
+            contentScale = ContentScale.Crop,
+            contentDescription = null
+          )
+          // Overlay for the image if exists
+          Column(
+            modifier = Modifier.fillMaxWidth()
+          ) {
+            val icon = when {
+              toggled && toggledIcon != null -> toggledIcon
+              !toggled && untoggledIcon != null -> untoggledIcon
+              else -> null
+            }
+            icon?.let {
+              IconButton(
+                onClick = { onIconToggle(!toggled) },
+                modifier = Modifier
+                  .align(Alignment.End)
+                  .padding(12.dp)
+                  .size(28.dp)
+                  .background(
+                    color = if (AppTheme.isDark) AppTheme.colors.black70 else AppTheme.colors.white70,
+                    shape = CircleShape
+                  )
+                  .padding(6.dp),
+              ) {
+                Icon(
+                  painter = painterResource(id = it),
+                  contentDescription = null,
+                  tint = iconTint,
+                  modifier = Modifier.size(16.dp)
                 )
-                .padding(6.dp),
-            ) {
-              Icon(
-                painter = painterResource(id = it),
-                contentDescription = null,
-                tint = iconTint,
-                modifier = Modifier.size(16.dp)
+              }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            overlayText?.let {
+              Text(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(12.dp),
+                text = it,
+                style = AppTheme.typography.title14Regular
+                  .copy(fontWeight = FontWeight.Medium),
+                color = AppTheme.primaryTextColor
               )
             }
           }
-          Spacer(modifier = Modifier.weight(1f))
-          overlayText?.let {
-            Text(
-              modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-              text = it,
-              style = AppTheme.typography.title14Regular
-                .copy(fontWeight = FontWeight.Medium),
-              color = AppTheme.primaryTextColor
-            )
-          }
         }
-
       }
-      if (title != null || line2 != null || line3 != null){
+      if (title != null || line2 != null || line3 != null) {
         CardDetails(
           name = title,
           line2 = line2,
-          line3 = line3
+          line3 = line3,
+          selected = selected,
+          selectable = selectable
         )
       }
     }
@@ -134,7 +150,9 @@ private fun CardDetails(
   name: String?,
   line2: (() -> String)?,
   line3: (() -> String)?,
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
+  selected: Boolean = true,
+  selectable: Boolean = false
 ) {
   Column(modifier = modifier) {
     Spacer(modifier = Modifier.height(8.dp))
@@ -142,7 +160,7 @@ private fun CardDetails(
       Text(
         text = it,
         style = AppTheme.typography.title14Regular,
-        color = AppTheme.primaryTextColor,
+        color = if (!selected && selectable) AppTheme.onSurface40Color else AppTheme.primaryTextColor,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
       )

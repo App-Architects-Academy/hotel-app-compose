@@ -4,6 +4,7 @@ coilCompose = "2.4.0"
 desugar_jdk_libs = "2.0.4"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
+maps-compose = "4.3.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -11,6 +12,7 @@ lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
 composeBom = "2023.08.00"
 splashscreen = "1.0.1"
+secret-gradle-plugin="2.0.1"
 navigationCompose = "2.7.7"
 voyagerVersion = "1.0.0"
 mavericks = "3.0.9"
@@ -18,6 +20,7 @@ mavericks = "3.0.9"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -41,4 +44,5 @@ mavericks = { module = "com.airbnb.android:mavericks", version.ref = "mavericks"
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+secret-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secret-gradle-plugin" }
 

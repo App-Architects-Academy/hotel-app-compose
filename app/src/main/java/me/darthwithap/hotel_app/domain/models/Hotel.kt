@@ -17,7 +17,13 @@ data class Hotel(
     val city: String,
     val addressLine1: String,
     val addressLine2: String
-  )
+  ) {
+    val fullAddress = """
+      $addressLine1
+      $addressLine2
+      $city, $country
+    """.trimIndent()
+  }
 
   data class Location(
     val longitude: Double,

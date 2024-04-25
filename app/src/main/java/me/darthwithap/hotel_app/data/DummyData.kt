@@ -1,7 +1,5 @@
 package me.darthwithap.hotel_app.data
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import me.darthwithap.hotel_app.domain.models.Amenity
 import me.darthwithap.hotel_app.domain.models.Hotel
 import me.darthwithap.hotel_app.domain.models.HotelDetails
@@ -13,6 +11,9 @@ import me.darthwithap.hotel_app.domain.values.AmenityIconResId
 import me.darthwithap.hotel_app.domain.values.Gender
 import java.time.LocalDate
 import java.util.UUID
+import kotlin.math.pow
+import kotlin.math.round
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun randomHotels(count: Int): List<HotelDetails> {
@@ -25,7 +26,10 @@ fun randomHotels(count: Int): List<HotelDetails> {
       id = UUID.randomUUID().toString(),
       thumbnailImage = images.first(),
       name = hotelNames.random(),
-      officialRating = if (reviews.isNotEmpty()) (reviews.sumOf { it.rating } / reviews.size).toDouble() else 0.0,
+      officialRating = if (reviews.isNotEmpty()) ((reviews.sumOf { it.rating } / reviews.size) + Random.nextDouble(
+        0.0,
+        0.99
+      )).roundTo(2) else 0.0,
       address = address.second,
       location = address.first,
       numberOfReviews = Random.nextInt(10, 1001),
@@ -212,64 +216,64 @@ private fun randomHotelInformation(): HotelDetails.HotelInformation {
 }
 
 private val hotelFeatures = listOf(
-  HotelDetails.HotelFeature(
+  Amenity(
     "Air Conditioning",
     "Climate control in all rooms for your comfort.",
     AmenityIconResId.AIR_CONDITIONER
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Security Cameras",
     "24/7 surveillance for your safety and security.",
     AmenityIconResId.SECURITY_CAMERA
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Work Desk",
     "Spacious desks in every room for business travelers.",
     AmenityIconResId.DESK
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Events Space",
     "Facilities available for conferences and events.",
     AmenityIconResId.EVENTS
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Fire Safety",
     "Equipped with modern fire safety systems.",
     AmenityIconResId.FIRE
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "First Aid",
     "First aid kits available for emergencies.",
     AmenityIconResId.FIRST_AID
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Fully Equipped Kitchen",
     "Suites with kitchens for extended stays.",
     AmenityIconResId.KITCHEN
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Parking Available",
     "Ample parking space for all guests.",
     AmenityIconResId.PARKING
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Swimming Pool",
     "Outdoor pool for relaxation and recreation.",
     AmenityIconResId.POOL
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Television",
     "Flat-screen TVs in every room with satellite channels.",
     AmenityIconResId.TV
   ),
-  HotelDetails.HotelFeature(
+  Amenity(
     "Wi-Fi",
     "Complimentary high-speed Wi-Fi across the hotel.",
     AmenityIconResId.WIFI
   )
 )
 
-private fun randomHotelFeatures(): List<HotelDetails.HotelFeature> {
+private fun randomHotelFeatures(): List<Amenity> {
   val count = Random.nextInt(from = 4, until = hotelFeatures.size + 1)
   return hotelFeatures.take(count)
 }
@@ -386,11 +390,16 @@ private fun randomPrimaryContact(city: String): Hotel.HotelPrimaryContact {
   return Hotel.HotelPrimaryContact(
     user = user,
     hostSinceDate = randomDate(),
-    rating = Random.nextDouble(3.0, 5.0),
+    rating = Random.nextDouble(3.0, 5.0).roundTo(2),
     numberOfReviews = Random.nextInt(20, 1001),
     details = detail,
     isVerified = Random.nextBoolean()
   )
+}
+
+private fun Double.roundTo(numFractionDigits: Int): Double {
+  val factor = 10.0.pow(numFractionDigits.toDouble())
+  return (this * factor).roundToInt() / factor
 }
 
 private val randomHostDetails = listOf(

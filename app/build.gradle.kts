@@ -3,6 +3,7 @@
 plugins {
   alias(libs.plugins.androidApplication)
   alias(libs.plugins.jetbrainsKotlinAndroid)
+  id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -85,4 +86,7 @@ dependencies {
 
   // Desugaring
   coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+  // Google Maps Compose
+  implementation(libs.maps.compose)
 }
