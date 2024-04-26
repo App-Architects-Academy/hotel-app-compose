@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package me.darthwithap.hotel_app.presentation.hoteldetails
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -22,15 +26,20 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +47,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -74,12 +84,17 @@ import me.darthwithap.hotel_app.ui.components.NavAppBar
 import me.darthwithap.hotel_app.ui.components.NavAppBarAction
 import me.darthwithap.hotel_app.ui.components.OutlineButton
 import me.darthwithap.hotel_app.ui.components.PrimaryButton
+import me.darthwithap.hotel_app.ui.components.bottomsheets.AboutHotelBottomSheet
+import me.darthwithap.hotel_app.ui.components.bottomsheets.DatePickerBottomSheet
+import me.darthwithap.hotel_app.ui.components.bottomsheets.FeaturesBottomSheet
+import me.darthwithap.hotel_app.ui.components.bottomsheets.ReviewsBottomSheet
 import me.darthwithap.hotel_app.ui.components.cards.IconPosition
 import me.darthwithap.hotel_app.ui.components.cards.ImageCard
 import me.darthwithap.hotel_app.ui.components.cards.TitleCard
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 import me.darthwithap.hotel_app.ui.theme.BeVietnamProFontFamily
 import me.darthwithap.hotel_app.ui.utils.loadCircleImage
+import me.darthwithap.hotel_app.ui.utils.showToast
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -89,6 +104,7 @@ object HotelDetailsScreen : Screen {
   private val useCase = GetHotelDetailsUseCase(repository)
   private val viewModel = HotelDetailsScreenViewModel(useCase)
 
+  @RequiresApi(Build.VERSION_CODES.O)
   @Composable
   override fun Content() {
     val navigator = LocalNavigator.current
@@ -104,6 +120,7 @@ object HotelDetailsScreen : Screen {
   }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HotelDetailsScreen(
   onNavigateBackClick: () -> Unit,
@@ -113,28 +130,28 @@ fun HotelDetailsScreen(
   viewModel: HotelDetailsScreenViewModel
 ) {
   val state by viewModel.state.collectAsState()
+  val context = LocalContext.current
 
   HotelDetailsScreenContent(
     state = state,
     onNavigateBackClick = onNavigateBackClick,
     onWishlistedClick = { _, _ -> /*TODO*/ },
     onShareClick = onShareClick,
-    onReadMoreClick = { /*TODO*/ },
     onAllFeaturesClick = { /*TODO*/ },
-    onMapClick = onMapClick,
+    onMapClick = { context.showToast("Start Directions clicked") },
     onAllReviewsClick = { /*TODO*/ },
     onCheckAvailabilityClick = { _, _ -> /*TODO*/ },
-    onContactHostClick = onContactHostClick
+    onContactHostClick = { context.showToast("Contact host clicked") }
   )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun HotelDetailsScreenContent(
   state: HotelDetailsUiState,
   onNavigateBackClick: () -> Unit,
   onWishlistedClick: (hotelId: String, isBookmarked: Boolean) -> Unit,
   onShareClick: (hotelDetails: HotelDetails) -> Unit,
-  onReadMoreClick: () -> Unit,
   onAllFeaturesClick: () -> Unit,
   onMapClick: (latLng: LatLng) -> Unit,
   onAllReviewsClick: (hotelId: String) -> Unit,
@@ -151,10 +168,7 @@ private fun HotelDetailsScreenContent(
         onNavigateBackClick = onNavigateBackClick,
         onWishlistedClick = onWishlistedClick,
         onShareClick = onShareClick,
-        onReadMoreClick = onReadMoreClick,
-        onAllFeaturesClick = onAllFeaturesClick,
         onMapClick = onMapClick,
-        onAllReviewsClick = onAllReviewsClick,
         onCheckAvailabilityClick = onCheckAvailabilityClick,
         onContactHostClick = onContactHostClick
       )
@@ -187,6 +201,7 @@ fun LoadingContent(
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HotelDetailsContent(
   details: HotelDetails,
@@ -194,10 +209,7 @@ fun HotelDetailsContent(
   onNavigateBackClick: () -> Unit,
   onWishlistedClick: (hotelId: String, isWishlisted: Boolean) -> Unit,
   onShareClick: (hotelDetails: HotelDetails) -> Unit,
-  onReadMoreClick: () -> Unit,
-  onAllFeaturesClick: () -> Unit,
   onMapClick: (latLng: LatLng) -> Unit,
-  onAllReviewsClick: (hotelId: String) -> Unit,
   onCheckAvailabilityClick: (hotelId: String, isAvailable: Boolean) -> Unit,
   onContactHostClick: (primaryContact: Hotel.HotelPrimaryContact) -> Unit,
   modifier: Modifier = Modifier
@@ -206,6 +218,33 @@ fun HotelDetailsContent(
   var topBarHeight by remember { mutableIntStateOf(0) }
   var titleHeight by remember { mutableIntStateOf(0) }
   val scrollState = rememberLazyListState()
+
+  var isAvailabilitySheetOpen by rememberSaveable {
+    mutableStateOf(false)
+  }
+  val bottomSheetState = rememberModalBottomSheetState()
+
+  var isAboutHotelSheetOpen by rememberSaveable {
+    mutableStateOf(false)
+  }
+  var isFeatureListSheetOpen by rememberSaveable {
+    mutableStateOf(false)
+  }
+  var isReviewsSheetOpen by rememberSaveable {
+    mutableStateOf(false)
+  }
+
+  var dateType by rememberSaveable {
+    mutableStateOf(DateType.CHECK_IN)
+  }
+
+  var checkInDate by rememberSaveable {
+    mutableLongStateOf(0L)
+  }
+
+  var checkOutDate by rememberSaveable {
+    mutableLongStateOf(0L)
+  }
 
   val showAppBar by remember {
     derivedStateOf {
@@ -218,15 +257,15 @@ fun HotelDetailsContent(
     modifier = modifier.fillMaxSize(),
     contentAlignment = Alignment.TopStart
   ) {
+    // Todo: Business logic needs to move to domain layer
+    val amenities = details.rooms.map { it.roomType.amenities }.flatten().toSet().toList()
+    val features = details.features.minus(amenities.toSet())
     LazyColumn(
       modifier = Modifier
         .fillMaxSize()
         .padding(bottom = 16.dp),
       state = scrollState
     ) {
-      // Todo: Business logic needs to move to domain layer
-      val amenities = details.rooms.map { it.roomType.amenities }.flatten().toSet().toList()
-      val features = details.features.minus(amenities.toSet())
       item {
         ImageCarousel(
           modifier = Modifier
@@ -255,7 +294,9 @@ fun HotelDetailsContent(
           HorizontalDivider()
           AboutSection(
             about = details.description,
-            onReadMoreClick = onReadMoreClick,
+            onReadMoreClick = {
+              isAboutHotelSheetOpen = true
+            },
             modifier = Modifier.padding(vertical = 16.dp)
           )
           HorizontalDivider()
@@ -288,7 +329,9 @@ fun HotelDetailsContent(
               .fillMaxWidth()
               .padding(vertical = 16.dp),
             text = stringResource(R.string.show_all_features),
-            onClick = onAllFeaturesClick,
+            onClick = {
+              isFeatureListSheetOpen = true
+            },
             buttonSize = ButtonSize.Medium
           )
           HorizontalDivider()
@@ -323,7 +366,9 @@ fun HotelDetailsContent(
             modifier = Modifier.padding(vertical = 16.dp),
             rating = details.hotel.officialRating.toFloat(),
             reviews = details.reviews,
-            onShowAllReviewsClick = onAllReviewsClick
+            onShowAllReviewsClick = {
+              isReviewsSheetOpen = true
+            }
           )
         }
       }
@@ -374,8 +419,54 @@ fun HotelDetailsContent(
           // Todo(Logic of checking availability)
           Random.nextBoolean()
         )
-      }
+        isAvailabilitySheetOpen = true
+      },
+      // TODO: Check availability from hotel's bookedDates
+      isEnabled = true // Random.nextBoolean()
     )
+
+    if (isAvailabilitySheetOpen) {
+      DatePickerBottomSheet(
+        bottomSheetState = bottomSheetState,
+        details = details,
+        onDismiss = {
+          isAvailabilitySheetOpen = false
+        },
+        onSelectDates = { dateIn, dateOut ->
+          checkInDate = dateIn
+          checkOutDate = dateOut
+          isAvailabilitySheetOpen = false
+        }
+      )
+    }
+    if (isAboutHotelSheetOpen) {
+      AboutHotelBottomSheet(
+        about = details.description,
+        onDismiss = {
+          isAboutHotelSheetOpen = false
+        },
+        bottomSheetState = bottomSheetState
+      )
+    }
+    if (isFeatureListSheetOpen) {
+      FeaturesBottomSheet(
+        features = amenities + features,
+        onDismiss = {
+          isFeatureListSheetOpen = false
+        },
+        bottomSheetState = bottomSheetState
+      )
+    }
+    if (isReviewsSheetOpen) {
+      ReviewsBottomSheet(
+        reviews = details.reviews,
+        rating = details.hotel.officialRating.toFloat(),
+        onDismiss = {
+          isReviewsSheetOpen = false
+        },
+        bottomSheetState = bottomSheetState
+      )
+    }
   }
 }
 
@@ -397,7 +488,8 @@ fun ReviewsSection(
       ReviewTitleCard(
         title = it.author.name,
         subtitle = { " Review on ${it.created}" },
-        description = it.text
+        description = it.text,
+        imageUrl = it.author.avatarUrl
       )
     }
     Spacer(modifier = Modifier.height(12.dp))
@@ -470,7 +562,7 @@ fun TopSpotsSection(
       icon = R.drawable.ic_chevron_right,
       iconPosition = IconPosition.Right
     )
-    LazyRow {
+    LazyRow(modifier = Modifier.padding(vertical = 16.dp)) {
       items(topSpots) { spot ->
         val paddingEnd = if (topSpots.last() == spot) 0.dp else 12.dp
         val annotatedText = buildAnnotatedString {
@@ -508,7 +600,11 @@ fun TopSpotsSection(
               annotatedText.text
             } else ""
           },
-          selectable = true
+          toggledIcon = R.drawable.ic_love_fill,
+          untoggledIcon = R.drawable.ic_love,
+          // Todo toggle wishlisted for top spot on click of the icon
+          onIconToggle = {},
+          toggled = spot.isWishlisted
         )
       }
     }
@@ -800,11 +896,12 @@ fun LazyListScope.amenitiesSection(
 }
 
 @Composable
-private fun BottomCtaPanel(
+fun BottomCtaPanel(
   price: String,
   ctaText: String,
-  onCtaClick: () -> Unit,
-  modifier: Modifier = Modifier
+  modifier: Modifier = Modifier,
+  isEnabled: Boolean = true,
+  onCtaClick: () -> Unit
 ) {
   Box(
     modifier = modifier
@@ -846,7 +943,8 @@ private fun BottomCtaPanel(
           PrimaryButton(
             text = ctaText,
             onClick = onCtaClick,
-            buttonSize = ButtonSize.Medium
+            buttonSize = ButtonSize.Medium,
+            enabled = isEnabled
           )
         }
       }
@@ -867,4 +965,8 @@ fun SectionTitle(
     maxLines = 1,
     overflow = TextOverflow.Ellipsis
   )
+}
+
+enum class DateType {
+  CHECK_IN, CHEC_OUT
 }

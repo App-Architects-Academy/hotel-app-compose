@@ -11,7 +11,9 @@ import me.darthwithap.hotel_app.domain.models.TopSpot
 import me.darthwithap.hotel_app.domain.models.User
 import me.darthwithap.hotel_app.domain.values.AmenityIconResId
 import me.darthwithap.hotel_app.domain.values.Gender
+import me.darthwithap.hotel_app.ui.utils.toDateString
 import java.time.LocalDate
+import java.time.Period
 import java.util.UUID
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -47,7 +49,8 @@ fun randomHotels(count: Int): List<HotelDetails> {
         reviews = reviews,
         rooms = rooms,
         roomTypes = rooms.distinctBy { it.roomType }.map { it.roomType },
-        topSpots = randomTopSpots()
+        topSpots = randomTopSpots(),
+        bookedDates = randomBookedDates()
       )
     )
   }
@@ -315,6 +318,34 @@ private fun randomHotelInformation(): HotelDetails.HotelInformation {
     squareMeters = squareMeters
   )
 }
+
+private fun randomBookedDates(): List<String> {
+  val startDate = LocalDate.now()
+  val endDate = LocalDate.of(startDate.year + 1, 12, 31)
+  val dateList = mutableListOf<String>()
+
+  val numberOfDates =
+    if (Random.nextDouble() > 0.3) Random.nextInt(50, 100) else Random.nextInt(10, 50)
+
+  for (i in 1..numberOfDates) {
+    val randomDaysToAdd = Random.nextInt(0, Period.between(startDate, endDate).days)
+    val randomDate = startDate.plusDays(randomDaysToAdd.toLong())
+    //TODO: Should not have access to presentation module extension function
+    if (Random.nextDouble() < 0.3) {
+      val rangeLength = Random.nextInt(2, 8)
+      for (j in 0 until rangeLength) {
+        val rangeDate = randomDate.plusDays(j.toLong())
+        if (!rangeDate.isAfter(endDate)) {
+          dateList.add(rangeDate.toDateString())
+        }
+      }
+    } else {
+      dateList.add(randomDate.toDateString())
+    }
+  }
+  return dateList.distinct().sorted()
+}
+
 
 private fun randomTopSpots(): List<TopSpot> {
   val count = Random.nextInt(from = 3, until = 8)

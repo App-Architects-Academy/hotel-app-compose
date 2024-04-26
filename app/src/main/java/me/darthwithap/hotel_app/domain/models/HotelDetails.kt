@@ -11,7 +11,8 @@ data class HotelDetails(
   val reviews: List<Review>,
   val rooms: List<Room>,
   val roomTypes: List<RoomType>,
-  val topSpots: List<TopSpot>
+  val topSpots: List<TopSpot>,
+  val bookedDates: List<String>
 ) {
 
   data class HotelInformation(

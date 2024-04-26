@@ -59,6 +59,9 @@ object AppTheme {
   val onSurface30Color: Color
     @Composable
     get() = if (isDark) colors.white30 else colors.black30
+  val onSurface20Color: Color
+    @Composable
+    get() = if (isDark) colors.white20 else colors.black20
   val surface40Color: Color
     @Composable
     get() = if (isDark) colors.black40 else colors.white40
