@@ -3,16 +3,17 @@ package me.darthwithap.hotel_app.data
 import me.darthwithap.hotel_app.domain.models.Amenity
 import me.darthwithap.hotel_app.domain.models.Hotel
 import me.darthwithap.hotel_app.domain.models.HotelDetails
+import me.darthwithap.hotel_app.domain.models.Location
 import me.darthwithap.hotel_app.domain.models.Review
 import me.darthwithap.hotel_app.domain.models.Room
 import me.darthwithap.hotel_app.domain.models.RoomType
+import me.darthwithap.hotel_app.domain.models.TopSpot
 import me.darthwithap.hotel_app.domain.models.User
 import me.darthwithap.hotel_app.domain.values.AmenityIconResId
 import me.darthwithap.hotel_app.domain.values.Gender
 import java.time.LocalDate
 import java.util.UUID
 import kotlin.math.pow
-import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -45,7 +46,8 @@ fun randomHotels(count: Int): List<HotelDetails> {
         features = randomHotelFeatures(),
         reviews = reviews,
         rooms = rooms,
-        roomTypes = rooms.distinctBy { it.roomType }.map { it.roomType }
+        roomTypes = rooms.distinctBy { it.roomType }.map { it.roomType },
+        topSpots = randomTopSpots()
       )
     )
   }
@@ -86,8 +88,107 @@ private val hotelDescriptions = listOf(
   "Indulge in timeless grandeur at the Royal Manor Hotel. Nestled in the charming countryside just outside of London, this opulent estate is surrounded by lush gardens and scenic landscapes. Guests can enjoy elegant, spacious rooms with antique furnishings, savor gourmet dining experiences, and explore historic grounds."
 )
 
+private val topSpots = listOf(
+  TopSpot(
+    title = "Ron Diving",
+    location = Location(0.070133, 0.076143),
+    placeName = "Nusa Dua",
+    pricePerPerson = 19.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1682687982502-1529b3b33f85?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "London Eye Visit",
+    location = Location(0.076132, 51.508530),
+    placeName = "London",
+    pricePerPerson = 30.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1526487239775-b6e778742d48?q=80&w=5064&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Tower Bridge Tour",
+    location = Location(0.076133, 51.508530),
+    placeName = "London",
+    pricePerPerson = 25.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=5070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Buckingham Palace Gate",
+    location = Location(0.076132, 51.508530),
+    placeName = "London",
+    pricePerPerson = 22.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1662712272177-99b30ab524ac?q=80&w=5070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Historic Royal Walk",
+    location = Location(0.076132, 51.508530),
+    placeName = "London",
+    pricePerPerson = 18.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1532264251691-2ad92a2ec88f?q=80&w=3260&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Manchester Museum Tour",
+    location = Location(2.244644, 53.483959),
+    placeName = "Manchester",
+    pricePerPerson = 15.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1668878189210-d29eb877a6ff?q=80&w=2322&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Old Trafford Stadium",
+    location = Location(2.244644, 53.483959),
+    placeName = "Manchester",
+    pricePerPerson = 35.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1610201417828-29dd1173d62f?q=80&w=4032&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Birmingham Science Museum",
+    location = Location(1.898575, 52.489471),
+    placeName = "Birmingham",
+    pricePerPerson = 12.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1534235826754-0a3572d1d6d5?q=80&w=4323&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Canal Boat Ride",
+    location = Location(1.898575, 52.489471),
+    placeName = "Birmingham",
+    pricePerPerson = 20.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1583354009936-42ef436d5f24?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Ym9hdCUyMHRvdXJ8ZW58MHx8MHx8fDA%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Gaudi Architecture Tour",
+    location = Location(2.154007, 41.390205),
+    placeName = "Barcelona",
+    pricePerPerson = 25.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1657705737771-6de18c9123c8?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8R2F1ZGklMjBBcmNoaXRlY3R1cmUlMjBUb3VyfGVufDB8fDB8fHww",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Royal Palace of Madrid",
+    location = Location(2.154007, 41.390205),
+    placeName = "Madrid",
+    pricePerPerson = 28.0,
+    thumbnailImage = "https://plus.unsplash.com/premium_photo-1697730316098-392ac14b93fe?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Um95YWwlMjBQYWxhY2UlMjBvZiUyME1hZHJpZHxlbnwwfHwwfHx8MA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  ),
+  TopSpot(
+    title = "Santiago Bernabéu Stadium",
+    location = Location(2.154007, 41.390205),
+    placeName = "Madrid",
+    pricePerPerson = 28.0,
+    thumbnailImage = "https://images.unsplash.com/photo-1522778034537-20a2486be803?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8TWFkcmlkJTIwU3RhZGl1bXxlbnwwfHwwfHx8MA%3D%3D",
+    isWishlisted = Random.nextBoolean()
+  )
+)
+
 private val hotelAddresses = listOf(
-  Hotel.Location(
+  Location(
     longitude = 0.076132,
     latitude = 51.508530
   ) to Hotel.Address(
@@ -96,16 +197,16 @@ private val hotelAddresses = listOf(
     addressLine1 = "122 Park Lane",
     addressLine2 = "122 Park Lane"
   ),
-  Hotel.Location(
+  Location(
     longitude = 0.076133,
-    latitude = 51.508531
+    latitude = 0.076133
   ) to Hotel.Address(
     country = "England",
     city = "London",
     addressLine1 = "123 Garden Lane",
     addressLine2 = "123 Garden Lane"
   ),
-  Hotel.Location(
+  Location(
     longitude = 0.076132,
     latitude = 51.508530
   ) to Hotel.Address(
@@ -114,7 +215,7 @@ private val hotelAddresses = listOf(
     addressLine1 = "78 High Street",
     addressLine2 = "78 High Street"
   ),
-  Hotel.Location(
+  Location(
     longitude = 2.244644,
     latitude = 53.483959
   ) to Hotel.Address(
@@ -123,7 +224,7 @@ private val hotelAddresses = listOf(
     addressLine1 = "17 Willow Crescent",
     addressLine2 = "17 Willow Crescent"
   ),
-  Hotel.Location(
+  Location(
     longitude = 1.898575,
     latitude = 52.489471
   ) to Hotel.Address(
@@ -132,7 +233,7 @@ private val hotelAddresses = listOf(
     addressLine1 = "8 Ivy Lane",
     addressLine2 = "8 Ivy Lane"
   ),
-  Hotel.Location(
+  Location(
     longitude = 2.154007,
     latitude = 41.390205
   ) to Hotel.Address(
@@ -141,7 +242,7 @@ private val hotelAddresses = listOf(
     addressLine1 = "Calle del Sol, 23",
     addressLine2 = "Calle del Sol, 23"
   ),
-  Hotel.Location(
+  Location(
     longitude = 2.154007,
     latitude = 41.390205
   ) to Hotel.Address(
@@ -213,6 +314,15 @@ private fun randomHotelInformation(): HotelDetails.HotelInformation {
     numberOfBathrooms = numberOfBathrooms,
     squareMeters = squareMeters
   )
+}
+
+private fun randomTopSpots(): List<TopSpot> {
+  val count = Random.nextInt(from = 3, until = 8)
+  val result = mutableSetOf<TopSpot>()
+  repeat(count) {
+    result.add(topSpots.random())
+  }
+  return result.toList()
 }
 
 private val hotelFeatures = listOf(
@@ -397,7 +507,7 @@ private fun randomPrimaryContact(city: String): Hotel.HotelPrimaryContact {
   )
 }
 
-private fun Double.roundTo(numFractionDigits: Int): Double {
+fun Double.roundTo(numFractionDigits: Int): Double {
   val factor = 10.0.pow(numFractionDigits.toDouble())
   return (this * factor).roundToInt() / factor
 }

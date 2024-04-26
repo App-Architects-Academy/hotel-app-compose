@@ -40,9 +40,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.google.android.gms.maps.model.CameraPosition
@@ -54,11 +59,13 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import me.darthwithap.hotel_app.R
 import me.darthwithap.hotel_app.data.api.HotelServiceImpl
 import me.darthwithap.hotel_app.data.repositories.HotelRepositoryImpl
+import me.darthwithap.hotel_app.data.roundTo
 import me.darthwithap.hotel_app.domain.models.Amenity
 import me.darthwithap.hotel_app.domain.models.Hotel
 import me.darthwithap.hotel_app.domain.models.HotelDetails
 import me.darthwithap.hotel_app.domain.models.Review
 import me.darthwithap.hotel_app.domain.models.Room
+import me.darthwithap.hotel_app.domain.models.TopSpot
 import me.darthwithap.hotel_app.domain.usecases.GetHotelDetailsUseCase
 import me.darthwithap.hotel_app.ui.components.ButtonSize
 import me.darthwithap.hotel_app.ui.components.HorizontalDivider
@@ -71,6 +78,7 @@ import me.darthwithap.hotel_app.ui.components.cards.IconPosition
 import me.darthwithap.hotel_app.ui.components.cards.ImageCard
 import me.darthwithap.hotel_app.ui.components.cards.TitleCard
 import me.darthwithap.hotel_app.ui.theme.AppTheme
+import me.darthwithap.hotel_app.ui.theme.BeVietnamProFontFamily
 import me.darthwithap.hotel_app.ui.utils.loadCircleImage
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -298,7 +306,10 @@ fun HotelDetailsContent(
           )
           HorizontalDivider()
 
-          TopSpotsSection(modifier = Modifier.padding(vertical = 16.dp))
+          TopSpotsSection(
+            modifier = Modifier.padding(vertical = 16.dp),
+            topSpots = details.topSpots
+          )
           HorizontalDivider()
 
           HostSection(
@@ -447,7 +458,11 @@ fun HostSection(
 }
 
 @Composable
-fun TopSpotsSection(modifier: Modifier) {
+fun TopSpotsSection(
+  topSpots: List<TopSpot>,
+  modifier: Modifier = Modifier,
+  onTopSpotClick: (TopSpot) -> Unit = {}
+) {
   Column(modifier = modifier) {
     TitleCard(
       title = stringResource(id = R.string.top_spots_heading),
@@ -455,8 +470,48 @@ fun TopSpotsSection(modifier: Modifier) {
       icon = R.drawable.ic_chevron_right,
       iconPosition = IconPosition.Right
     )
-    // SPACE FOR THINGS TO DO CARDS
-    Spacer(modifier = Modifier.height(100.dp))
+    LazyRow {
+      items(topSpots) { spot ->
+        val paddingEnd = if (topSpots.last() == spot) 0.dp else 12.dp
+        val annotatedText = buildAnnotatedString {
+          withStyle(
+            style = SpanStyle(
+              color = AppTheme.primaryTextColor,
+              fontSize = 12.sp,
+              fontWeight = FontWeight.Normal,
+              fontFamily = BeVietnamProFontFamily
+            )
+          ) {
+            append("\$${spot.pricePerPerson}")
+          }
+          withStyle(
+            style = SpanStyle(
+              color = AppTheme.onSurface40Color,
+              fontSize = 12.sp,
+              fontWeight = FontWeight.Normal,
+              fontFamily = BeVietnamProFontFamily
+            )
+          ) {
+            append("/person")
+          }
+        }
+
+        ImageCard(
+          modifier = Modifier.padding(end = paddingEnd),
+          imageUrl = spot.thumbnailImage,
+          onClick = { onTopSpotClick(spot) },
+          title = spot.title,
+          // Todo: Calculate distance of the top spot from the hotel's distance
+          line2 = { "${spot.placeName} ∙ ${Random.nextDouble().roundTo(1)}km" },
+          line3 = {
+            if (spot.pricePerPerson > 0.0) {
+              annotatedText.text
+            } else ""
+          },
+          selectable = true
+        )
+      }
+    }
   }
 }
 
@@ -521,7 +576,7 @@ fun RoomsSection(
       modifier = Modifier.padding(bottom = 16.dp),
       title = stringResource(id = R.string.where_youll_live)
     )
-    LazyRow() {
+    LazyRow {
       items(rooms) { room ->
         val paddingEnd = if (rooms.last() == room) 0.dp else 12.dp
         ImageCard(

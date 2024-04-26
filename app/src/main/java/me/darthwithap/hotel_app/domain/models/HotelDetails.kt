@@ -10,7 +10,8 @@ data class HotelDetails(
   val features: List<Amenity>,
   val reviews: List<Review>,
   val rooms: List<Room>,
-  val roomTypes: List<RoomType>
+  val roomTypes: List<RoomType>,
+  val topSpots: List<TopSpot>
 ) {
 
   data class HotelInformation(
@@ -38,4 +39,13 @@ data class RoomType(
   val amenities: List<Amenity>,
   val minimumCapacity: Int,
   val maximumCapacity: Int
+)
+
+data class TopSpot(
+  val title: String,
+  val location: Location,
+  val placeName: String,
+  val pricePerPerson: Double,
+  val thumbnailImage: String,
+  val isWishlisted: Boolean = false
 )

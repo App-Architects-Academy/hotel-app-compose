@@ -25,11 +25,6 @@ data class Hotel(
     """.trimIndent()
   }
 
-  data class Location(
-    val longitude: Double,
-    val latitude: Double
-  )
-
   data class HotelPrimaryContact(
     val user: User,
     val hostSinceDate: LocalDate,
@@ -39,3 +34,8 @@ data class Hotel(
     val isVerified: Boolean = false
   )
 }
+
+data class Location(
+  val longitude: Double,
+  val latitude: Double
+)
