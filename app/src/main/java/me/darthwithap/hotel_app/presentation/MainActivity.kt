@@ -18,7 +18,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.launch
 import me.darthwithap.hotel_app.domain.values.ThemeSetting
 import me.darthwithap.hotel_app.presentation.auth.auth.AuthScreen
-import me.darthwithap.hotel_app.presentation.hoteldetails.HotelDetailsScreen
+import me.darthwithap.hotel_app.presentation.home.HomeScreen
 import me.darthwithap.hotel_app.presentation.navigation.Routes
 import me.darthwithap.hotel_app.ui.theme.AppTheme
 
@@ -45,7 +45,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppTheme(darkTheme = isDarkTheme(state)) {
-                Navigator(screen = HotelDetailsScreen)
+                Navigator(
+                    screen = when (startDestination) {
+                        Routes.HomeScreen -> HomeScreen
+                        else -> AuthScreen
+                    }
+                )
             }
         }
     }
