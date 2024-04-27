@@ -123,7 +123,7 @@ fun PrimaryButton(
 }
 
 @Composable
-fun SecondaryButton(
+fun OutlineButton(
   text: String,
   onClick: () -> Unit,
   buttonSize: ButtonSize,

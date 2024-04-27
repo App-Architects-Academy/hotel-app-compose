@@ -21,7 +21,9 @@ data class AppColorScheme(
   val white10: Color = Color(0x1AFFFFFF),
   val white05: Color = Color(0x0DFFFFFF),
 
-  val greyscale900: Color = Color(0xFF212121),
+  val dark1: Color = Color(0xFF212121),
+  val dark2: Color = Color(0xFF1F222A),
+  val dark3: Color = Color(0xFF35383F),
 
   // Solid
   val primary: Color = Color(0xFF2664ED),
@@ -44,7 +46,11 @@ data class AppColorScheme(
   val primaryDark: Color = white100,
   val interactiveDark: Color = white10,
   val disableDark: Color = white30
-)
+) {
+  companion object {
+    val primaryColor = Color(0xFF2664ED)
+  }
+}
 
 val appColorScheme = AppColorScheme()
 

@@ -1,7 +1,9 @@
 @file:Suppress("DSL_SCOPE_VIOLATION")
+
 plugins {
   alias(libs.plugins.androidApplication)
   alias(libs.plugins.jetbrainsKotlinAndroid)
+  id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -28,6 +30,8 @@ android {
     }
   }
   compileOptions {
+    isCoreLibraryDesugaringEnabled = true
+
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
   }
@@ -74,5 +78,15 @@ dependencies {
   // Splash Screen
   implementation(libs.splashscreen)
 
+  // Mavericks
   implementation(libs.mavericks)
+
+  // Coil
+  implementation(libs.coil.compose)
+
+  // Desugaring
+  coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+  // Google Maps Compose
+  implementation(libs.maps.compose)
 }
