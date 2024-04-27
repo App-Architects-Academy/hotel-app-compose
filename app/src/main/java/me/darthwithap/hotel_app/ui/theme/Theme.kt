@@ -59,16 +59,25 @@ object AppTheme {
   val onSurface30Color: Color
     @Composable
     get() = if (isDark) colors.white30 else colors.black30
+  val onSurface20Color: Color
+    @Composable
+    get() = if (isDark) colors.white20 else colors.black20
   val surface40Color: Color
     @Composable
     get() = if (isDark) colors.black40 else colors.white40
   val onSurface40Color: Color
     @Composable
     get() = if (isDark) colors.white40 else colors.black40
+  val onSurface05Color: Color
+    @Composable
+    get() = if (isDark) colors.white05 else colors.black05
   val primaryTextColor: Color
     @Composable
     get() = onSurfaceColor
   val secondaryTextColor: Color
     @Composable
     get() = onSurface40Color
+  val errorColor: Color
+    @Composable
+    get() = colors.red
 }

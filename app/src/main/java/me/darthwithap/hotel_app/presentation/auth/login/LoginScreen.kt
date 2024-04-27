@@ -95,8 +95,6 @@ fun LoginScreenContent(
 
     Column(modifier = modifier.padding(16.dp)) {
         NavAppBar(
-            modifier = Modifier
-                .fillMaxWidth(),
             title = "",
             onNavigateClick = onNavigateBackClick,
             actions = {}
