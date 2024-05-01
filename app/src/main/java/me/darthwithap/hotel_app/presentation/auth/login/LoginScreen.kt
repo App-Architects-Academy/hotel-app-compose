@@ -1,6 +1,5 @@
 package me.darthwithap.hotel_app.presentation.auth.login
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,10 +24,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import me.darthwithap.hotel_app.R
 import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
-import me.darthwithap.hotel_app.presentation.navigation.Routes
+import me.darthwithap.hotel_app.presentation.home.HomeScreen
 import me.darthwithap.hotel_app.ui.components.ButtonSize
 import me.darthwithap.hotel_app.ui.components.EmailInputField
 import me.darthwithap.hotel_app.ui.components.NavAppBar
@@ -38,7 +39,11 @@ import me.darthwithap.hotel_app.ui.theme.AppTheme
 object LoginScreen : Screen {
     @Composable
     override fun Content() {
+        val viewModel: LoginViewModel = getViewModel()
         val navigator = LocalNavigator.current
+
+        val state: LoginState by viewModel.state.collectAsState()
+
         LoginScreen(
             onNavigateBackClick = {
                 navigator?.pop()
@@ -48,8 +53,19 @@ object LoginScreen : Screen {
                 navigator?.push(RegisterScreen(
                     prefillEmail = email, prefillPass = pass
                 ))
-            }
+            },
+            onLoginClick = { email, pass ->
+                viewModel.emitEvent(
+                    LoginEvents.LoginButtonClick(email, pass)
+                )
+            },
+            state = state
         )
+
+        if (state is LoginState.LoginSuccess) {
+            navigator?.pop()
+            navigator?.push(HomeScreen)
+        }
     }
 }
 
@@ -57,19 +73,16 @@ object LoginScreen : Screen {
 fun LoginScreen(
     onNavigateBackClick: () -> Unit,
     onRegisterClick: (String, String) -> Unit,
+    onLoginClick: (String, String) -> Unit,
+    state: LoginState,
     modifier: Modifier = Modifier
 ) {
-
-    val onLoginClick: (String, String) -> Unit by remember {
-        mutableStateOf({ email, pass ->
-            Log.d("Login Click", "$email, $pass")
-        })
-    }
 
     LoginScreenContent(
         onNavigateBackClick,
         onLoginClick,
         onRegisterClick,
+        state,
         modifier
             .navigationBarsPadding()
             .systemBarsPadding(),
@@ -81,6 +94,7 @@ fun LoginScreenContent(
     onNavigateBackClick: () -> Unit,
     onLoginClick: (email: String, pass: String) -> Unit,
     onRegisterClick: (email: String, pass: String) -> Unit,
+    state: LoginState,
     modifier: Modifier
 ) {
     // Todo: Add Loading Widget
