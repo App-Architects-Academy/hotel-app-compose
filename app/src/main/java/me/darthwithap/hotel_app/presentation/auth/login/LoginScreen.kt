@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -99,11 +100,11 @@ fun LoginScreenContent(
 ) {
     // Todo: Add Loading Widget
 
-    var passwordInput by remember {
+    var passwordInput by rememberSaveable {
         mutableStateOf("")
     }
 
-    var emailInput by remember {
+    var emailInput by rememberSaveable {
         mutableStateOf("")
     }
 
