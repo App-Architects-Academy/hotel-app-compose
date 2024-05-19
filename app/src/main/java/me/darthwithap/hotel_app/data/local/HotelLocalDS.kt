@@ -1,12 +1,12 @@
 package me.darthwithap.hotel_app.data.api
 
 import me.darthwithap.hotel_app.data.randomHotels
-import me.darthwithap.hotel_app.data.repositories.HotelService
+import me.darthwithap.hotel_app.data.repositories.HotelDS
 import me.darthwithap.hotel_app.domain.models.Hotel
 import me.darthwithap.hotel_app.domain.models.HotelDetails
 import kotlin.random.Random
 
-class HotelServiceImpl : HotelService {
+class HotelLocalDS : HotelDS {
 
   private val dummyHotelDetails: List<HotelDetails> by lazy {
     randomHotels(100).shuffled(Random.Default)
