@@ -67,7 +67,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import me.darthwithap.hotel_app.R
-import me.darthwithap.hotel_app.data.api.HotelServiceImpl
+import me.darthwithap.hotel_app.data.local.HotelLocalDS
 import me.darthwithap.hotel_app.data.repositories.HotelRepositoryImpl
 import me.darthwithap.hotel_app.data.roundTo
 import me.darthwithap.hotel_app.domain.models.Amenity
@@ -99,7 +99,7 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 object HotelDetailsScreen : Screen {
-  private val service = HotelServiceImpl()
+  private val service = HotelLocalDS()
   private val repository = HotelRepositoryImpl(service)
   private val useCase = GetHotelDetailsUseCase(repository)
   private val viewModel = HotelDetailsScreenViewModel(useCase)

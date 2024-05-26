@@ -68,6 +68,9 @@ dependencies {
   androidTestImplementation(libs.androidx.ui.test.junit4)
   debugImplementation(libs.androidx.ui.tooling)
   debugImplementation(libs.androidx.ui.test.manifest)
+//  implementation(libs.androidx.datastore.preferences)
+  implementation("androidx.datastore:datastore-preferences-core:1.1.1")
+  implementation("androidx.datastore:datastore-preferences:1.1.1")
 
   //Voyager
   // Navigator

@@ -1,5 +1,6 @@
 package me.darthwithap.hotel_app.presentation.auth.login
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,13 +23,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.edit
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import me.darthwithap.hotel_app.DISingletons
+import me.darthwithap.hotel_app.PREF_AUTHTOKEN_KEY
 import me.darthwithap.hotel_app.R
+import me.darthwithap.hotel_app.authDataStore
+import me.darthwithap.hotel_app.data.DummyNetworkClient
+import me.darthwithap.hotel_app.data.api.HotelAppApi
+import me.darthwithap.hotel_app.data.remote.LoginRemoteDS
 import me.darthwithap.hotel_app.presentation.auth.register.RegisterScreen
 import me.darthwithap.hotel_app.presentation.home.HomeScreen
 import me.darthwithap.hotel_app.ui.components.ButtonSize
@@ -40,8 +50,17 @@ import me.darthwithap.hotel_app.ui.theme.AppTheme
 object LoginScreen : Screen {
     @Composable
     override fun Content() {
-        val viewModel: LoginViewModel = getViewModel()
+        val viewModel: LoginViewModel = LoginViewModel(
+            loginRemoteDS = LoginRemoteDS(
+                DISingletons.hotelAppApi ?: HotelAppApi(
+                    DISingletons.networkClient ?: DummyNetworkClient(
+                        LocalContext.current
+                    )
+                )
+            )
+        )
         val navigator = LocalNavigator.current
+        val context = LocalContext.current
 
         val state: LoginState by viewModel.state.collectAsState()
 
@@ -51,9 +70,11 @@ object LoginScreen : Screen {
             },
             onRegisterClick = { email, pass ->
                 navigator?.pop()
-                navigator?.push(RegisterScreen(
-                    prefillEmail = email, prefillPass = pass
-                ))
+                navigator?.push(
+                    RegisterScreen(
+                        prefillEmail = email, prefillPass = pass
+                    )
+                )
             },
             onLoginClick = { email, pass ->
                 viewModel.emitEvent(
@@ -63,7 +84,21 @@ object LoginScreen : Screen {
             state = state
         )
 
-        if (state is LoginState.LoginSuccess) {
+        val currentState = state
+
+        LaunchedEffect(key1 = currentState) {
+            Log.d(this.javaClass.simpleName, "Login LaunchedEffect $currentState")
+            if (currentState is LoginState.LoginSuccess) {
+
+                val dataStore = context.authDataStore
+
+                dataStore.edit {settings ->
+                    settings[PREF_AUTHTOKEN_KEY] = currentState.authToken
+                }
+            }
+        }
+
+        if (currentState is LoginState.LoginSuccess) {
             navigator?.pop()
             navigator?.push(HomeScreen)
         }

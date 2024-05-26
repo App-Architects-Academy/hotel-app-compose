@@ -1,5 +1,6 @@
 package me.darthwithap.hotel_app.presentation.auth.login
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -8,9 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import me.darthwithap.hotel_app.data.remote.LoginRemoteDS
 import me.darthwithap.hotel_app.presentation.base.HotelAppViewModel
 
-class LoginViewModel : HotelAppViewModel<LoginEvents, LoginState>() {
+class LoginViewModel(
+    val loginRemoteDS: LoginRemoteDS
+) : HotelAppViewModel<LoginEvents, LoginState>() {
     private val _state: MutableStateFlow<LoginState> = MutableStateFlow(LoginState.Init)
     override val state: StateFlow<LoginState> = _state
 
@@ -25,25 +29,20 @@ class LoginViewModel : HotelAppViewModel<LoginEvents, LoginState>() {
 
     private fun login(loginButtonClick: LoginEvents.LoginButtonClick) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(500)
-            val email = loginButtonClick.email
-            val pass = loginButtonClick.password
+            val response = loginRemoteDS.login(loginButtonClick.email, loginButtonClick.password)
 
-            if (email.equals(
-                    "info@apparchitects.academy",
-                    ignoreCase = true
-                ) && pass.equals("aBcd123@#", ignoreCase = false)
-            ) {
-                withContext(Dispatchers.Main) {
-                    _state.update {
-                        LoginState.LoginSuccess
-                    }
+
+            Log.d(this.javaClass.simpleName, "response ${response.isSuccess} ${response.getOrNull()}")
+
+            if (response.isSuccess) {
+                _state.update {
+                    val successSate = LoginState.LoginSuccess(response.getOrThrow())
+                    Log.d(this.javaClass.simpleName, "sending $successSate")
+                    successSate
                 }
             } else {
-                withContext(Dispatchers.Main) {
-                    _state.update {
-                        LoginState.LoginError
-                    }
+                _state.update {
+                    LoginState.LoginError
                 }
             }
         }
